@@ -89,7 +89,18 @@
   h1{ font-family:'Fraunces',serif; font-weight:500; letter-spacing:-0.01em; font-size:clamp(2.6rem,5.2vw,4.6rem); line-height:1.05; margin-bottom:4px; }
   .role{ font-family:'Fraunces',serif; font-weight:400; font-style:italic; font-size:clamp(1.3rem,2.6vw,2rem); color:var(--brass); margin-top:6px; }
   .tagline{ margin-top:24px; max-width:440px; font-size:16px; line-height:1.65; color:color-mix(in srgb, var(--c-content) 65%, transparent); font-weight:300; }
-  .cta-group{ margin-top:40px; }
+  .cta-group{ margin-top:40px; display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+  .icon-btn{
+    width:52px; height:52px; border-radius:50%; flex:0 0 auto; box-sizing:border-box;
+    display:inline-flex; align-items:center; justify-content:center;
+    background-color:color-mix(in srgb, var(--c-glass) 16%, transparent);
+    backdrop-filter:blur(10px) saturate(var(--saturation)); -webkit-backdrop-filter:blur(10px) saturate(var(--saturation));
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light)*40%), transparent), 0 8px 20px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark)*10%), transparent);
+    transition: transform .35s ease;
+  }
+  .icon-btn:hover{ transform:translateY(-3px); }
+  .icon-btn svg{ width:20px; height:20px; fill:var(--brass); }
+  .cta-group .btn{ height:52px; box-sizing:border-box; }
   .hero-visual{ position:relative; display:flex; align-items:flex-end; justify-content:center; height:78vh; max-height:640px; }
   .photo-glow{ position:absolute; bottom:8%; left:50%; transform:translateX(-50%); width:340px; height:340px; border-radius:50%; filter:blur(50px); background:color-mix(in srgb, var(--c-action) 35%, transparent); transition:background 500ms; }
   .hero-photo{
@@ -105,6 +116,7 @@
     .hero .eyebrow{ justify-content:center; }
     .hero .eyebrow::before{ display:none; }
     .tagline{ margin-left:auto; margin-right:auto; }
+    .cta-group{ justify-content:center; }
     .status{ display:none; }
   }
 
@@ -143,13 +155,12 @@
   @media (max-width:900px){
     .principle-list{ grid-template-columns:1fr; }
     .skills-grid{ grid-template-columns:1fr; }
-    .bento-grid{ grid-template-columns:1fr !important; grid-template-rows:none; height:auto; gap:16px; }
+    .bento-grid{ grid-template-columns:1fr !important; grid-template-rows:none !important; height:auto !important; gap:16px; }
     .bento-desc, .bento-projects, .bento-link{ opacity:1 !important; max-height:none !important; margin-top:12px !important; }
     .bento-plus, .bento-hint{ display:none; }
+    .manifesto{ min-height:auto; justify-content:flex-start; }
     .manifesto-body{ grid-template-columns:1fr; }
     .manifesto-photo img{ max-height:280px; }
-    .quote-section{ grid-template-columns:1fr; }
-    .quote-photo img{ max-height:280px; }
   }
 
   .professional-evolution{ position:relative; z-index:2; padding:40px 44px 120px; max-width:1100px; margin:0 auto; }
@@ -187,6 +198,11 @@
   .quote-card p{ font-family:'Fraunces',serif; font-style:italic; font-weight:400; font-size:clamp(1.2rem,2vw,1.6rem); line-height:1.5; }
   .quote-card p strong{ color:var(--brass); font-style:normal; font-weight:500; }
   .quote-attr{ margin-top:20px; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:color-mix(in srgb, var(--c-content) 55%, transparent); }
+
+  @media (max-width:900px){
+    .quote-section{ grid-template-columns:1fr; }
+    .quote-photo img{ max-height:280px; }
+  }
 
   .card-section{ position:relative; z-index:2; padding:0 44px 140px; max-width:1100px; margin:0 auto; display:flex; flex-direction:column; align-items:center; }
   .card-section .section-label{ align-self:flex-start; }
@@ -328,6 +344,7 @@
   .contact-card:hover{ transform:translateY(-4px); }
   .contact-card__icon{ flex:0 0 auto; width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center; background:color-mix(in srgb, var(--brass) 18%, transparent); }
   .contact-card__icon svg{ width:20px; height:20px; stroke:var(--brass); }
+  .contact-card__icon svg.contact-card__icon--brand{ width:18px; height:18px; fill:var(--brass); stroke:none; }
   .contact-card__label{ font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:color-mix(in srgb, var(--c-content) 55%, transparent); margin-bottom:4px; }
   .contact-card__value{ font-family:'Fraunces',serif; font-weight:500; font-size:16px; word-break:break-word; }
 
@@ -359,14 +376,17 @@
     position:absolute; top:0; right:0; z-index:2;
     width:44px; height:44px; border-radius:50%;
     display:flex; align-items:center; justify-content:center;
-    text-decoration:none; box-shadow:0 8px 18px rgba(0,0,0,0.28);
+    text-decoration:none;
+    background-color:color-mix(in srgb, var(--c-glass) 16%, transparent);
+    backdrop-filter:blur(14px) saturate(var(--saturation)); -webkit-backdrop-filter:blur(14px) saturate(var(--saturation));
+    box-shadow: inset 0 1px 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light)*30%), transparent), 0 12px 26px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark)*14%), transparent);
     transform:translate3d(0,0,0) scale(.35); opacity:0; pointer-events:none;
-    transition: transform .4s cubic-bezier(.68,1.55,.265,1), opacity .25s ease;
+    transition: transform .4s cubic-bezier(.68,1.55,.265,1), opacity .25s ease, background-color 500ms cubic-bezier(1,0,0.4,1);
   }
-  .side-fab-item svg{ width:18px; height:18px; stroke:#fff; }
+  .side-fab-item svg{ width:18px; height:18px; stroke:var(--brass); }
   .side-fab.active .side-fab-item{
     opacity:1; pointer-events:auto;
-    transform:translate3d(0, calc(-1 * (var(--i) + 1) * 58px), 0) scale(1);
+    transform:translate3d(var(--tx), var(--ty), 0) scale(1);
     transition-delay: calc(var(--i) * 0.05s);
   }
   .side-fab-item::after{
@@ -375,12 +395,6 @@
     padding:5px 12px; border-radius:8px; font-size:12px; white-space:nowrap; opacity:0; pointer-events:none; transition:opacity .2s ease;
   }
   .side-fab-item:hover::after{ opacity:1; }
-
-  .g1{ background:linear-gradient(135deg,#3B82F6,#1E3A5F); }
-  .g2{ background:linear-gradient(135deg,#C9A15A,#8a6a2f); }
-  .g3{ background:linear-gradient(135deg,#D9713C,#b8502a); }
-  .g5{ background:linear-gradient(135deg,#3B82F6,#0ea5e9); }
-  .g6{ background:linear-gradient(135deg,#8b5cf6,#3B82F6); }
 
   @media (max-width:480px){
     .switcher{ top:16px; right:16px; }
@@ -439,6 +453,8 @@
       <p class="tagline">I identify business bottlenecks and design AI-powered growth systems that improve operational efficiency, accelerate decision-making, and help organizations scale faster.</p>
       <div class="cta-group">
         <a href="#projects" class="btn btn-glass"><span>View My Work →</span></a>
+        <a href="https://www.linkedin.com/in/aswinroshan-rajendran/" target="_blank" rel="noopener" class="icon-btn" aria-label="LinkedIn"><svg viewBox="0 0 448 512"><path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.3-48.29-79.3-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"/></svg></a>
+        <a href="https://github.com/aswinroshanrajendran" target="_blank" rel="noopener" class="icon-btn" aria-label="GitHub"><svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.084-.729.084-.729 1.205.084 1.838 1.237 1.838 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.51 11.51 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222 0 1.606-.015 2.898-.015 3.293 0 .322.216.694.825.576C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
       </div>
     </div>
 
@@ -739,11 +755,18 @@
           <span class="contact-card__value">+33 7 45 53 22 98</span>
         </span>
       </a>
-      <a class="contact-card" href="https://linkedin.com/in/aswinroshan-rajendran" target="_blank" rel="noopener">
-        <span class="contact-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 11v5M8 8v.01M12 16v-3a2 2 0 0 1 4 0v3M12 13v3"/></svg></span>
+      <a class="contact-card" href="https://www.linkedin.com/in/aswinroshan-rajendran/" target="_blank" rel="noopener">
+        <span class="contact-card__icon"><svg class="contact-card__icon--brand" viewBox="0 0 448 512"><path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.3-48.29-79.3-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"/></svg></span>
         <span>
           <span class="contact-card__label">LinkedIn</span>
-          <span class="contact-card__value">linkedin.com/in/aswinroshan-rajendran</span>
+          <span class="contact-card__value">Connect on LinkedIn</span>
+        </span>
+      </a>
+      <a class="contact-card" href="https://github.com/aswinroshanrajendran" target="_blank" rel="noopener">
+        <span class="contact-card__icon"><svg class="contact-card__icon--brand" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.084-.729.084-.729 1.205.084 1.838 1.237 1.838 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.51 11.51 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222 0 1.606-.015 2.898-.015 3.293 0 .322.216.694.825.576C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></span>
+        <span>
+          <span class="contact-card__label">GitHub</span>
+          <span class="contact-card__value">View my repositories</span>
         </span>
       </a>
       <span class="contact-card" style="cursor:default;">
@@ -765,19 +788,19 @@
       <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
     </button>
     <menu class="side-fab-items" id="sideFabItems">
-      <a class="side-fab-item g1" href="#home" data-label="Home" style="--i:0">
+      <a class="side-fab-item" href="#home" data-label="Home" style="--i:0; --tx:-39px; --ty:108px">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9"/></svg>
       </a>
-      <a class="side-fab-item g2" href="#about" data-label="About" style="--i:1">
+      <a class="side-fab-item" href="#about" data-label="About" style="--i:1; --tx:-94px; --ty:66px">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>
       </a>
-      <a class="side-fab-item g3" href="#projects" data-label="Projects" style="--i:2">
+      <a class="side-fab-item" href="#projects" data-label="Projects" style="--i:2; --tx:-115px; --ty:0px">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
       </a>
-      <a class="side-fab-item g5" href="#case-studies" data-label="Portfolio" style="--i:3">
+      <a class="side-fab-item" href="#case-studies" data-label="Portfolio" style="--i:3; --tx:-94px; --ty:-66px">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/></svg>
       </a>
-      <a class="side-fab-item g6" href="#contact" data-label="Contact" style="--i:4">
+      <a class="side-fab-item" href="#contact" data-label="Contact" style="--i:4; --tx:-39px; --ty:-108px">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
       </a>
     </menu>
@@ -945,7 +968,7 @@
     .from('.hero h1', { y:30, opacity:0, duration:0.8 }, '-=0.3')
     .from('.hero .role', { y:20, opacity:0, duration:0.7 }, '-=0.5')
     .from('.hero .tagline', { y:16, opacity:0, duration:0.6 }, '-=0.4')
-    .from('.hero .cta-group .btn', { y:16, opacity:0, duration:0.5 }, '-=0.3')
+    .from('.hero .cta-group .btn', { y:16, opacity:0, duration:0.5, clearProps:'transform' }, '-=0.3')
     .from('.hero-photo', { y:40, opacity:0, duration:0.9 }, '-=0.7')
     .from('.photo-glow', { opacity:0, duration:1.2 }, '-=0.7');
 
