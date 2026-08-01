@@ -22,16 +22,15 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+      - name: Stage deployed files
+        # upload-pages-artifact only accepts a single directory, so the
+        # deployed subset (excluding react-version/ and resources/) is
+        # copied into _site first.
+        run: |
+          mkdir _site
+          cp index.html aswin-sitting.png aswin-standing.png aswin-quote.png logo-icon.png logo-mark.png _site/
       - uses: actions/upload-pages-artifact@v3
         with:
-          # Explicit file list, not "." — keeps react-version/ and resources/
-          # (archived scaffold + raw source images) out of the deployed site.
-          path: |
-            index.html
-            aswin-sitting.png
-            aswin-standing.png
-            aswin-quote.png
-            logo-icon.png
-            logo-mark.png
+          path: _site
       - id: deployment
         uses: actions/deploy-pages@v4
