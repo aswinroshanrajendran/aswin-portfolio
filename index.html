@@ -137,13 +137,14 @@
   .skills-section{ position:relative; z-index:2; padding:40px 44px 100px; max-width:1100px; margin:0 auto; }
   .skills-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:20px; }
   .skill-group{
-    position:relative; border-radius:22px; padding:34px 30px;
+    position:relative; border-radius:22px; padding:34px 30px; overflow:hidden; isolation:isolate;
     background-color:color-mix(in srgb, var(--c-glass) 12%, transparent);
     backdrop-filter:blur(14px) saturate(var(--saturation)); -webkit-backdrop-filter:blur(14px) saturate(var(--saturation));
     box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light)*32%), transparent), 0 14px 30px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark)*10%), transparent);
     transition: transform .3s ease, box-shadow .3s ease, background-color 500ms cubic-bezier(1,0,0.4,1);
   }
   .skill-group:hover{ transform:translateY(-4px); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light)*42%), transparent), 0 20px 40px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark)*15%), transparent); }
+  .skill-group-inner{ position:relative; z-index:2; }
   .skill-group h3{ font-family:'Fraunces',serif; font-weight:500; font-size:18px; margin-bottom:18px; }
   .skill-tags{ list-style:none; display:flex; flex-wrap:wrap; gap:8px; }
   .skill-tags li{ font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.03em; padding:7px 13px; border-radius:99em; color:color-mix(in srgb, var(--c-content) 75%, transparent); background:color-mix(in srgb, var(--c-content) 6%, transparent); border:1px solid color-mix(in srgb, var(--c-content) 12%, transparent); }
@@ -600,45 +601,61 @@
     <div class="section-label">Core Skills &amp; Tools</div>
     <div class="skills-grid">
       <div class="skill-group">
-        <h3>Growth &amp; GTM</h3>
-        <ul class="skill-tags">
-          <li>n8n</li>
-          <li>Clay</li>
-          <li>Apollo</li>
-          <li>Lemlist</li>
-          <li>CRM Operations</li>
-          <li>Campaign Automation</li>
-        </ul>
+        <div class="p-card-blob" style="background:#C9A15A; width:55%; height:48%; top:-10%; left:-8%;"></div>
+        <div class="p-card-blob" style="background:#4A7A78; width:48%; height:42%; bottom:-10%; right:-6%;"></div>
+        <div class="skill-group-inner">
+          <h3>Growth &amp; GTM</h3>
+          <ul class="skill-tags">
+            <li>n8n</li>
+            <li>Clay</li>
+            <li>Apollo</li>
+            <li>Lemlist</li>
+            <li>CRM Operations</li>
+            <li>Campaign Automation</li>
+          </ul>
+        </div>
       </div>
       <div class="skill-group">
-        <h3>AI &amp; Automation</h3>
-        <ul class="skill-tags">
-          <li>OpenAI / Gemini</li>
-          <li>Prompt Engineering</li>
-          <li>RAG Workflows</li>
-          <li>Python</li>
-          <li>Workflow Automation</li>
-        </ul>
+        <div class="p-card-blob" style="background:#3B82F6; width:55%; height:48%; top:-10%; left:-8%;"></div>
+        <div class="p-card-blob" style="background:#8B5CF6; width:48%; height:42%; bottom:-10%; right:-6%;"></div>
+        <div class="skill-group-inner">
+          <h3>AI &amp; Automation</h3>
+          <ul class="skill-tags">
+            <li>OpenAI / Gemini</li>
+            <li>Prompt Engineering</li>
+            <li>RAG Workflows</li>
+            <li>Python</li>
+            <li>Workflow Automation</li>
+          </ul>
+        </div>
       </div>
       <div class="skill-group">
-        <h3>Data &amp; Analytics</h3>
-        <ul class="skill-tags">
-          <li>SQL</li>
-          <li>Web Scraping</li>
-          <li>Data Enrichment</li>
-          <li>Executive Dashboards &amp; Reporting</li>
-          <li>Google Apps Script</li>
-        </ul>
+        <div class="p-card-blob" style="background:#D9713C; width:55%; height:48%; top:-10%; left:-8%;"></div>
+        <div class="p-card-blob" style="background:#0ea5e9; width:48%; height:42%; bottom:-10%; right:-6%;"></div>
+        <div class="skill-group-inner">
+          <h3>Data &amp; Analytics</h3>
+          <ul class="skill-tags">
+            <li>SQL</li>
+            <li>Web Scraping</li>
+            <li>Data Enrichment</li>
+            <li>Executive Dashboards &amp; Reporting</li>
+            <li>Google Apps Script</li>
+          </ul>
+        </div>
       </div>
       <div class="skill-group">
-        <h3>Strategy &amp; Business</h3>
-        <ul class="skill-tags">
-          <li>Product Strategy</li>
-          <li>Business Consulting</li>
-          <li>User Journey Mapping</li>
-          <li>Digital Transformation</li>
-          <li>Stakeholder Management</li>
-        </ul>
+        <div class="p-card-blob" style="background:#8B5CF6; width:55%; height:48%; top:-10%; left:-8%;"></div>
+        <div class="p-card-blob" style="background:#C9A15A; width:48%; height:42%; bottom:-10%; right:-6%;"></div>
+        <div class="skill-group-inner">
+          <h3>Strategy &amp; Business</h3>
+          <ul class="skill-tags">
+            <li>Product Strategy</li>
+            <li>Business Consulting</li>
+            <li>User Journey Mapping</li>
+            <li>Digital Transformation</li>
+            <li>Stakeholder Management</li>
+          </ul>
+        </div>
       </div>
     </div>
   </section>
