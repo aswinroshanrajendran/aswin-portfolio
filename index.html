@@ -134,26 +134,23 @@
   .manifesto-sub{ margin-top:22px; max-width:680px; font-size:15.5px; line-height:1.7; color:color-mix(in srgb, var(--c-content) 65%, transparent); }
   .manifesto-sub:first-of-type{ margin-top:0; }
 
-  .principles{ position:relative; z-index:2; padding:40px 44px 100px; max-width:1100px; margin:0 auto; }
-  .principle-list{ display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:color-mix(in srgb, var(--c-content) 12%, transparent); border-radius:20px; overflow:hidden; }
-  .principle{ background:var(--c-bg); padding:34px 30px; transition:background 500ms; position:relative; overflow:hidden; display:flex; flex-direction:column; }
-  .principle:nth-child(7){ grid-column:1/-1; text-align:center; padding-left:44px; padding-right:44px; background:var(--c-bg); max-width:none; }
-  .principle-trail{ position:absolute; inset:0; pointer-events:none; border:2px solid transparent; border-radius:8px; background:linear-gradient(var(--c-bg), var(--c-bg)) padding-box, linear-gradient(90deg, var(--brass), color-mix(in srgb, var(--brass) 0%, transparent)) border-box; opacity:0; animation:trail-glow 4s ease-in-out infinite; z-index:-1; }
-  .principle > :not(.principle-trail){ position:relative; z-index:1; }
-  @keyframes trail-glow{ 0%, 100%{ opacity:0; } 50%{ opacity:1; } }
-  .principle-num{ font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--brass); margin-bottom:14px; }
-  .principle h3{ font-family:'Fraunces',serif; font-weight:500; font-size:20px; margin-bottom:10px; }
-  .principle p{ font-size:13.5px; line-height:1.65; color:color-mix(in srgb, var(--c-content) 68%, transparent); }
-
   .skills-section{ position:relative; z-index:2; padding:40px 44px 100px; max-width:1100px; margin:0 auto; }
-  .skills-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:color-mix(in srgb, var(--c-content) 12%, transparent); border-radius:20px; overflow:hidden; }
-  .skill-group{ background:var(--c-bg); padding:34px 30px; }
+  .skills-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:20px; }
+  .skill-group{
+    position:relative; border-radius:22px; padding:34px 30px;
+    background-color:color-mix(in srgb, var(--c-glass) 12%, transparent);
+    backdrop-filter:blur(14px) saturate(var(--saturation)); -webkit-backdrop-filter:blur(14px) saturate(var(--saturation));
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light)*32%), transparent), 0 14px 30px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark)*10%), transparent);
+    transition: transform .3s ease, box-shadow .3s ease, background-color 500ms cubic-bezier(1,0,0.4,1);
+  }
+  .skill-group:hover{ transform:translateY(-4px); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light)*42%), transparent), 0 20px 40px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark)*15%), transparent); }
   .skill-group h3{ font-family:'Fraunces',serif; font-weight:500; font-size:18px; margin-bottom:18px; }
   .skill-tags{ list-style:none; display:flex; flex-wrap:wrap; gap:8px; }
   .skill-tags li{ font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.03em; padding:7px 13px; border-radius:99em; color:color-mix(in srgb, var(--c-content) 75%, transparent); background:color-mix(in srgb, var(--c-content) 6%, transparent); border:1px solid color-mix(in srgb, var(--c-content) 12%, transparent); }
+  .skills-section .skill-tags li{ cursor:default; transition: transform .25s cubic-bezier(0.34,1.56,0.64,1), background-color .25s ease, border-color .25s ease, color .25s ease; }
+  .skills-section .skill-tags li:hover{ transform:translateY(-3px); background-color:color-mix(in srgb, var(--brass) 16%, transparent); border-color:var(--brass); color:var(--c-content); }
 
   @media (max-width:900px){
-    .principle-list{ grid-template-columns:1fr; }
     .skills-grid{ grid-template-columns:1fr; }
     .bento-grid{ grid-template-columns:1fr !important; grid-template-rows:none !important; height:auto !important; gap:16px; }
     .bento-desc, .bento-projects, .bento-link{ opacity:1 !important; max-height:none !important; margin-top:12px !important; }
@@ -179,7 +176,8 @@
   .focus-list li::before{ content:'→ '; color:var(--brass); margin-right:6px; }
   .evolution-next-chapter{ border-color:color-mix(in srgb, var(--brass) 40%, transparent); }
 
-  .quote-section{ position:relative; z-index:2; padding:0 44px 140px; max-width:1100px; margin:0 auto; display:grid; grid-template-columns:0.8fr 1.2fr; gap:50px; align-items:center; }
+  .showcase-section{ position:relative; z-index:2; padding:0 44px 140px; max-width:1200px; margin:0 auto; display:grid; grid-template-columns:1fr 0.7fr 1.25fr; gap:40px; align-items:center; }
+  .card-column{ display:flex; flex-direction:column; align-items:center; }
   .quote-photo{ position:relative; display:flex; justify-content:center; align-items:center; }
   .quote-photo img{
     max-width:100%; max-height:420px; width:auto; height:auto; object-fit:contain;
@@ -200,13 +198,9 @@
   .quote-attr{ margin-top:20px; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:color-mix(in srgb, var(--c-content) 55%, transparent); }
 
   @media (max-width:900px){
-    .quote-section{ grid-template-columns:1fr; }
+    .showcase-section{ grid-template-columns:1fr; }
     .quote-photo img{ max-height:280px; }
   }
-
-  .card-section{ position:relative; z-index:2; padding:0 44px 140px; max-width:1100px; margin:0 auto; display:flex; flex-direction:column; align-items:center; }
-  .card-section .section-label{ align-self:flex-start; }
-  .card-caption{ margin-top:20px; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:color-mix(in srgb, var(--c-content) 45%, transparent); text-align:center; }
 
   .hover-3d{ position:relative; width:340px; max-width:90vw; aspect-ratio:1.6/1; perspective:1000px; }
   .hover-3d figure{ position:absolute; inset:0; margin:0; transform-style:preserve-3d; transition:transform 0.35s cubic-bezier(0.22,1,0.36,1); border-radius:20px; overflow:hidden; }
@@ -296,7 +290,7 @@
   .case-studies-head .eyebrow{ justify-content:center; }
 
   /* ---- executive project cards ---- */
-  .exec-grid{ position:relative; z-index:2; max-width:1200px; margin:0 auto; padding:20px 24px 120px; display:grid; grid-template-columns:repeat(2,1fr); gap:28px; }
+  .exec-grid{ position:relative; z-index:2; max-width:1200px; margin:0 auto; padding:20px 24px 120px; display:grid; grid-template-columns:repeat(2,1fr); gap:28px; align-items:start; }
   .exec-card{
     position:relative; border-radius:22px; overflow:hidden; isolation:isolate;
     background-color:color-mix(in srgb, var(--c-glass) 12%, transparent);
@@ -305,10 +299,25 @@
     transition: transform .3s ease, box-shadow .3s ease;
   }
   .exec-card:hover{ transform:translateY(-4px); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light)*42%), transparent), 0 20px 40px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark)*15%), transparent); }
-  .exec-card-inner{ position:relative; z-index:2; padding:36px 34px; }
+  .exec-card-inner{ position:relative; z-index:2; padding:34px 34px; }
+  .exec-card-head{ display:flex; align-items:flex-start; justify-content:space-between; gap:20px; cursor:pointer; }
+  .exec-card-headline{ flex:1 1 auto; min-width:0; }
   .exec-card-num{ font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.08em; color:var(--brass); margin-bottom:14px; }
-  .exec-card-inner h3{ font-family:'Fraunces',serif; font-weight:600; font-size:21px; line-height:1.22; margin-bottom:8px; }
-  .exec-card-subtitle{ font-family:'Fraunces',serif; font-style:italic; font-weight:400; font-size:14px; color:color-mix(in srgb, var(--c-content) 68%, transparent); margin-bottom:26px; line-height:1.4; }
+  .exec-card-headline h3{ font-family:'Fraunces',serif; font-weight:600; font-size:21px; line-height:1.22; margin-bottom:8px; }
+  .exec-card-subtitle{ font-family:'Fraunces',serif; font-style:italic; font-weight:400; font-size:14px; color:color-mix(in srgb, var(--c-content) 68%, transparent); margin-bottom:16px; line-height:1.4; }
+  .exec-card-preview{ font-size:13.5px; line-height:1.6; color:color-mix(in srgb, var(--c-content) 72%, transparent); }
+  .exec-card-preview strong{ color:var(--brass); font-weight:600; }
+  .exec-card-toggle{
+    flex:0 0 auto; width:36px; height:36px; margin-top:2px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    border:1px solid color-mix(in srgb, var(--c-content) 28%, transparent); color:var(--c-action);
+    transition: transform .35s cubic-bezier(0.22,1,0.36,1), border-color .3s ease, background-color .3s ease;
+  }
+  .exec-card-toggle svg{ width:16px; height:16px; stroke:currentColor; }
+  .exec-card.is-expanded .exec-card-toggle{ transform:rotate(45deg); border-color:var(--c-action); background-color:color-mix(in srgb, var(--c-action) 12%, transparent); }
+  .exec-card-body{ display:grid; grid-template-rows:0fr; transition:grid-template-rows .45s cubic-bezier(0.22,1,0.36,1); }
+  .exec-card.is-expanded .exec-card-body{ grid-template-rows:1fr; }
+  .exec-card-body-inner{ overflow:hidden; padding-top:26px; }
   .exec-card-section{ margin-bottom:20px; }
   .exec-card-section:last-child{ margin-bottom:0; }
   .exec-card-section h4{ font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:0.1em; text-transform:uppercase; color:color-mix(in srgb, var(--c-content) 55%, transparent); margin-bottom:8px; }
@@ -486,104 +495,22 @@
     </div>
   </section>
 
-  <section class="principles">
-    <div class="section-label">The Operator Framework</div>
-    <div class="framework-header">
-      <p>My approach to solving business challenges.</p>
-    </div>
-    <div class="principle-list">
-      <div class="principle">
-        <div class="principle-trail"></div>
-        <div class="principle-num">01</div>
-        <h3>Discover</h3>
-        <p>Understand the business model, objectives, stakeholders, and customer journey before proposing any solution.</p>
-      </div>
-      <div class="principle">
-        <div class="principle-trail"></div>
-        <div class="principle-num">02</div>
-        <h3>Diagnose</h3>
-        <p>Identify operational bottlenecks, growth constraints, inefficiencies, and root causes using both qualitative insights and quantitative analysis.</p>
-      </div>
-      <div class="principle">
-        <div class="principle-trail"></div>
-        <div class="principle-num">03</div>
-        <h3>Analyze</h3>
-        <p>Transform data into actionable intelligence by combining business metrics, market research, customer behavior, and operational performance.</p>
-      </div>
-      <div class="principle">
-        <div class="principle-trail"></div>
-        <div class="principle-num">04</div>
-        <h3>Strategize</h3>
-        <p>Design scalable business strategies that align operations, growth, technology, AI, and automation with measurable business objectives.</p>
-      </div>
-      <div class="principle">
-        <div class="principle-trail"></div>
-        <div class="principle-num">05</div>
-        <h3>Execute</h3>
-        <p>Build intelligent systems, automate workflows, optimize processes, and implement practical solutions that teams can successfully adopt.</p>
-      </div>
-      <div class="principle">
-        <div class="principle-trail"></div>
-        <div class="principle-num">06</div>
-        <h3>Measure</h3>
-        <p>Evaluate business outcomes through clearly defined KPIs including revenue, growth, operational efficiency, customer engagement, and productivity.</p>
-      </div>
-      <div class="principle">
-        <div class="principle-trail"></div>
-        <div class="principle-num">07</div>
-        <h3>Scale</h3>
-        <p>Refine continuously, automate where possible, and create systems capable of supporting long-term organizational growth.</p>
-      </div>
-    </div>
-  </section>
+  <!-- ================= PROJECTS ================= -->
+  <div class="page-head" id="projects">
+    <div class="eyebrow">Business Transformation Projects</div>
+    <h1>A quick look at the work</h1>
+    <p>Six real business problems, grouped by focus area - hover a group to explore, click through for the full breakdown.</p>
+  </div>
+  <div class="bento-grid" id="grid" data-active="0"></div>
 
-  <!-- ================= CORE SKILLS & TOOLS ================= -->
-  <section class="skills-section" id="skills">
-    <div class="section-label">Core Skills &amp; Tools</div>
-    <div class="skills-grid">
-      <div class="skill-group">
-        <h3>Growth &amp; GTM</h3>
-        <ul class="skill-tags">
-          <li>n8n</li>
-          <li>Clay</li>
-          <li>Apollo</li>
-          <li>Lemlist</li>
-          <li>CRM Operations</li>
-          <li>Campaign Automation</li>
-        </ul>
-      </div>
-      <div class="skill-group">
-        <h3>AI &amp; Automation</h3>
-        <ul class="skill-tags">
-          <li>OpenAI / Gemini</li>
-          <li>Prompt Engineering</li>
-          <li>RAG Workflows</li>
-          <li>Python</li>
-          <li>Workflow Automation</li>
-        </ul>
-      </div>
-      <div class="skill-group">
-        <h3>Data &amp; Analytics</h3>
-        <ul class="skill-tags">
-          <li>SQL</li>
-          <li>Web Scraping</li>
-          <li>Data Enrichment</li>
-          <li>Executive Dashboards &amp; Reporting</li>
-          <li>Google Apps Script</li>
-        </ul>
-      </div>
-      <div class="skill-group">
-        <h3>Strategy &amp; Business</h3>
-        <ul class="skill-tags">
-          <li>Product Strategy</li>
-          <li>Business Consulting</li>
-          <li>User Journey Mapping</li>
-          <li>Digital Transformation</li>
-          <li>Stakeholder Management</li>
-        </ul>
-      </div>
-    </div>
-  </section>
+  <!-- ================= CASE STUDIES ================= -->
+  <div class="case-studies-head" id="case-studies">
+    <div class="eyebrow">Business Transformation Projects</div>
+    <h2>Selected work, summarized for decision-makers</h2>
+    <p>Six engagements across growth, automation, and business intelligence - challenge, solution, and measurable impact for each.</p>
+  </div>
+
+  <div class="exec-grid" id="execGrid"></div>
 
   <!-- ================= PROFESSIONAL EVOLUTION ================= -->
   <section class="professional-evolution" id="professional">
@@ -668,63 +595,94 @@
     </div>
   </section>
 
-  <section class="card-section">
-    <div class="section-label">Business Card</div>
-    <div class="hover-3d">
-      <figure>
-        <div class="card-face">
-          <div class="card-top">
-            <div class="card-mark"><img src="logo-mark.png" alt="Aswin Roshan logo"></div>
-            <div class="card-tag">Growth × GTM × RevOps</div>
-          </div>
-          <div class="card-mid">
-            <div class="card-name">Aswin</div>
-            <div class="card-role">Growth &amp; GTM Operations</div>
-          </div>
-          <div class="card-bottom">
-            <div class="card-contact">
-              aswinroshan17@gmail.com<br>
-              +33 7 45 53 22 98<br>
-              linkedin.com/in/aswinroshan-rajendran
-            </div>
-            <div class="card-focus">Growth Ops · GTM · RevOps · Business Strategy</div>
-          </div>
-        </div>
-      </figure>
-      <div></div><div></div><div></div>
-      <div></div><div></div>
-      <div></div><div></div><div></div>
+  <!-- ================= CORE SKILLS & TOOLS ================= -->
+  <section class="skills-section" id="skills">
+    <div class="section-label">Core Skills &amp; Tools</div>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <h3>Growth &amp; GTM</h3>
+        <ul class="skill-tags">
+          <li>n8n</li>
+          <li>Clay</li>
+          <li>Apollo</li>
+          <li>Lemlist</li>
+          <li>CRM Operations</li>
+          <li>Campaign Automation</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <h3>AI &amp; Automation</h3>
+        <ul class="skill-tags">
+          <li>OpenAI / Gemini</li>
+          <li>Prompt Engineering</li>
+          <li>RAG Workflows</li>
+          <li>Python</li>
+          <li>Workflow Automation</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <h3>Data &amp; Analytics</h3>
+        <ul class="skill-tags">
+          <li>SQL</li>
+          <li>Web Scraping</li>
+          <li>Data Enrichment</li>
+          <li>Executive Dashboards &amp; Reporting</li>
+          <li>Google Apps Script</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <h3>Strategy &amp; Business</h3>
+        <ul class="skill-tags">
+          <li>Product Strategy</li>
+          <li>Business Consulting</li>
+          <li>User Journey Mapping</li>
+          <li>Digital Transformation</li>
+          <li>Stakeholder Management</li>
+        </ul>
+      </div>
     </div>
   </section>
 
-  <section class="quote-section">
+  <section class="showcase-section">
+    <div class="card-column">
+      <div class="hover-3d">
+        <figure>
+          <div class="card-face">
+            <div class="card-top">
+              <div class="card-mark"><img src="logo-mark.png" alt="Aswin Roshan logo"></div>
+              <div class="card-tag">Growth × GTM × RevOps</div>
+            </div>
+            <div class="card-mid">
+              <div class="card-name">Aswin</div>
+              <div class="card-role">Growth &amp; GTM Operations</div>
+            </div>
+            <div class="card-bottom">
+              <div class="card-contact">
+                aswinroshan17@gmail.com<br>
+                +33 7 45 53 22 98<br>
+                linkedin.com/in/aswinroshan-rajendran
+              </div>
+              <div class="card-focus">Growth Ops · GTM · RevOps · Business Strategy</div>
+            </div>
+          </div>
+        </figure>
+        <div></div><div></div><div></div>
+        <div></div><div></div>
+        <div></div><div></div><div></div>
+      </div>
+    </div>
+
     <div class="quote-photo">
       <div class="quote-glow"></div>
       <img src="aswin-quote.png" alt="Aswin" width="328" height="632">
     </div>
+
     <div class="quote-card">
       <p>"The future doesn't belong to those who build the most technology.
         It belongs to those who know where technology creates the <strong>most value</strong>."</p>
       <div class="quote-attr">- Aswin</div>
     </div>
   </section>
-
-  <!-- ================= PROJECTS ================= -->
-  <div class="page-head" id="projects">
-    <div class="eyebrow">Business Transformation Projects</div>
-    <h1>A quick look at the work</h1>
-    <p>Six real business problems, grouped by focus area - hover a group to explore, click through for the full breakdown.</p>
-  </div>
-  <div class="bento-grid" id="grid" data-active="0"></div>
-
-  <!-- ================= CASE STUDIES ================= -->
-  <div class="case-studies-head" id="case-studies">
-    <div class="eyebrow">Business Transformation Projects</div>
-    <h2>Selected work, summarized for decision-makers</h2>
-    <p>Six engagements across growth, automation, and business intelligence - challenge, solution, and measurable impact for each.</p>
-  </div>
-
-  <div class="exec-grid" id="execGrid"></div>
 
   <!-- ================= CONTACT ================= -->
   <section class="contact-hero" id="contact">
@@ -984,18 +942,6 @@
     gsap.from(el, { y:20, opacity:0, duration:0.6, ease:'power3.out',
       scrollTrigger:{ trigger: el, start:'top 88%', toggleActions:'play reverse play reverse' }, delay:i*0.05 });
   });
-  gsap.utils.toArray('.principle').forEach((el,i)=>{
-    if(i === 6){ // 7th card - from bottom
-      gsap.from(el, { y:100, opacity:0, duration:1.2, ease:'power2.out',
-        scrollTrigger:{ trigger: el, start:'top 85%', toggleActions:'play reverse play reverse' }, delay:i*0.1 });
-    } else if(i % 2 === 0){ // odd positions (1,3,5) - from left
-      gsap.from(el, { x:-100, opacity:0, duration:1.2, ease:'power2.out',
-        scrollTrigger:{ trigger: el, start:'top 85%', toggleActions:'play reverse play reverse' }, delay:i*0.1 });
-    } else { // even positions (2,4,6) - from right
-      gsap.from(el, { x:100, opacity:0, duration:1.2, ease:'power2.out',
-        scrollTrigger:{ trigger: el, start:'top 85%', toggleActions:'play reverse play reverse' }, delay:i*0.1 });
-    }
-  });
   gsap.from('.next-chapter', { y:20, opacity:0, duration:0.7, ease:'power3.out',
     scrollTrigger:{ trigger:'.next-chapter', start:'top 88%', toggleActions:'play reverse play reverse' } });
   gsap.utils.toArray('.evolution-period').forEach((el,i)=>{
@@ -1003,16 +949,24 @@
       scrollTrigger:{ trigger: el, start:'top 85%', toggleActions:'play reverse play reverse' }, delay:i*0.1 });
   });
 
-  gsap.from('.quote-photo', { y:30, opacity:0, duration:0.8, scrollTrigger:{ trigger:'.quote-section', start:'top 80%', toggleActions:'play reverse play reverse' } });
-  gsap.from('.quote-card', { y:30, opacity:0, duration:0.8, delay:0.15, scrollTrigger:{ trigger:'.quote-section', start:'top 80%', toggleActions:'play reverse play reverse' } });
-  gsap.from('.card-section .hover-3d', { y:24, opacity:0, scale:0.94, duration:0.7, scrollTrigger:{ trigger:'.card-section', start:'top 85%', toggleActions:'play reverse play reverse' } });
-  gsap.from('.card-caption', { opacity:0, duration:0.6, delay:0.2, scrollTrigger:{ trigger:'.card-section', start:'top 85%' } });
+  /* ---- skills grid: each group cascades its own tags in with a confident scale-bounce ---- */
+  gsap.utils.toArray('.skills-section .skill-group').forEach(group => {
+    gsap.from(group.querySelectorAll('.skill-tags li'), {
+      scale:0.85, opacity:0, duration:0.4, ease:'back.out(1.7)', stagger:0.04,
+      scrollTrigger:{ trigger: group, start:'top 88%', toggleActions:'play reverse play reverse' }
+    });
+  });
+
+  gsap.from('.showcase-section .hover-3d', { y:24, opacity:0, scale:0.94, duration:0.7, scrollTrigger:{ trigger:'.showcase-section', start:'top 85%', toggleActions:'play reverse play reverse' } });
+  gsap.from('.quote-photo', { y:30, opacity:0, duration:0.8, delay:0.1, scrollTrigger:{ trigger:'.showcase-section', start:'top 80%', toggleActions:'play reverse play reverse' } });
+  gsap.from('.quote-card', { y:30, opacity:0, duration:0.8, delay:0.2, scrollTrigger:{ trigger:'.showcase-section', start:'top 80%', toggleActions:'play reverse play reverse' } });
 
   /* ---- the six executive projects (single source of truth for the bento overview + the detail cards) ---- */
   const PROJECTS = [
     {
       title:'Digital Membership Transformation Platform',
       subtitle:'Modernizing member onboarding and organizational operations',
+      preview:'Replaced handwritten applications and manual payment processing with a centralized digital portal and executive dashboards, automating <strong>80%+ of admin workflows</strong> across the full member lifecycle.',
       challenge:'The association relied on handwritten membership applications, manual payment processing, and disconnected member records, creating operational inefficiencies and limiting organizational growth.',
       solution:'Redesigned the complete membership lifecycle by introducing a centralized digital application portal, integrated payment workflow, executive dashboards, and a centralized member management system.',
       impact:[
@@ -1027,6 +981,7 @@
     {
       title:'AI Lead Intelligence Platform',
       subtitle:'Automated prospect enrichment and CRM intelligence',
+      preview:'Built an automated Clay + Apollo enrichment pipeline that replaced manual, event-by-event prospecting, hitting a <strong>54% verified email rate</strong> on cold contact data.',
       challenge:'Sales and partnership teams relied on manual research to identify company information, LinkedIn profiles, and contact details, largely limited to prospects sourced from competitor events. This resulted in a narrow prospect pool, inconsistent data quality, and significant time investment before outreach campaigns could even begin.',
       solution:'Built an automated enrichment pipeline using Clay and Apollo to collect, validate, and enrich prospect information from a broader range of sources, moving the team beyond manual, event-by-event prospect collection into a repeatable, scalable enrichment process for sales, partnerships, and marketing teams.',
       impact:[
@@ -1040,6 +995,7 @@
     {
       title:'Executive Growth Intelligence Dashboard',
       subtitle:'Business intelligence for strategic decision-making',
+      preview:'Consolidated LinkedIn, WhatsApp, Meta Ads, and more through n8n into Looker Studio, unifying <strong>5+ disconnected channels</strong> into one live executive dashboard.',
       challenge:'Leadership lacked centralized visibility into membership growth, marketing performance, revenue trends, and operational KPIs. Every time leadership needed a KPI update, someone had to individually ask each team and pull numbers by hand, making reporting slow and dependent on fragmented, channel-by-channel checking.',
       solution:'Designed executive dashboards that consolidated data from multiple outreach and communication channels, including LinkedIn, Instantly, Telegram, WhatsApp, and Meta Ads, by routing it through n8n into structured Google Sheets, then visualizing the combined data in Looker Studio. This replaced the need to manually chase each team for updates with one centralized, real-time view.',
       impact:[
@@ -1054,6 +1010,7 @@
     {
       title:'AI Market Intelligence Engine',
       subtitle:'AI-powered trend monitoring and market intelligence automation',
+      preview:'Deployed an AI classification workflow that continuously monitors <strong>5 subreddits</strong> in real time with a <strong>≤1hr freshness filter</strong>, replacing manual community monitoring.',
       challenge:'Growth and marketing teams spent significant time manually monitoring online communities to identify industry trends, competitor activity, partnership opportunities, and emerging discussions. The process was repetitive, inconsistent, and difficult to scale.',
       solution:'Designed and developed an AI-powered automation workflow that continuously monitored Reddit communities, collected relevant discussions, classified content using Large Language Models, eliminated duplicates, and delivered actionable insights through automated reporting.',
       impact:[
@@ -1067,6 +1024,7 @@
     {
       title:'Intelligent Attendee Engagement System',
       subtitle:'Automated networking and relationship-building workflow',
+      preview:'Connected event registration to LinkedIn outreach, triggering personalized engagement inside the registration window at a safe <strong>10-connections-per-day</strong> pace.',
       challenge:'Event attendees often registered without any structured follow-up process, creating missed opportunities for networking, relationship building, and future engagement.',
       solution:'Developed an event-driven automation that connected attendee registrations with LinkedIn outreach workflows, enabling personalized engagement immediately after registration while minimizing manual effort.',
       impact:[
@@ -1080,6 +1038,7 @@
     {
       title:'AI Content Repurposing Engine',
       subtitle:'Transforming long-form content into multi-channel marketing assets',
+      preview:'Built an AI workflow that turns <strong>1 podcast episode</strong> into a full SEO blog post plus platform-specific social content, cutting manual turnaround time.',
       challenge:'Creating blogs and social media content from podcast episodes required significant manual effort, limiting content production and reducing the consistency of digital marketing activities.',
       solution:'Designed an AI-powered workflow that automatically converted podcast recordings into SEO-optimized blog articles and platform-specific social media content for continuous digital engagement.',
       impact:[
@@ -1143,7 +1102,7 @@
   gsap.from('.case-studies-head h2', { y:20, opacity:0, duration:0.7, delay:0.1, scrollTrigger:{ trigger:'.case-studies-head', start:'top 85%', toggleActions:'play reverse play reverse' } });
   gsap.from('.case-studies-head p', { y:16, opacity:0, duration:0.6, delay:0.2, scrollTrigger:{ trigger:'.case-studies-head', start:'top 85%', toggleActions:'play reverse play reverse' } });
 
-  /* ---- six static executive project cards - no expand/collapse, everything visible at once ---- */
+  /* ---- six executive project cards - collapsed to a preview by default, expand on click ---- */
   const execGrid = document.getElementById('execGrid');
   PROJECTS.forEach((p, i) => {
     const card = document.createElement('div');
@@ -1155,28 +1114,71 @@
       <div class="p-card-blob" style="background:${p.c1}; width:55%; height:48%; top:-10%; left:-8%;"></div>
       <div class="p-card-blob" style="background:${p.c2}; width:48%; height:42%; bottom:-10%; right:-6%;"></div>
       <div class="exec-card-inner">
-        <div class="exec-card-num">0${i + 1}</div>
-        <h3>${p.title}</h3>
-        <div class="exec-card-subtitle">${p.subtitle}</div>
-        <div class="exec-card-section">
-          <h4>Business Challenge</h4>
-          <p>${p.challenge}</p>
+        <div class="exec-card-head">
+          <div class="exec-card-headline">
+            <div class="exec-card-num">0${i + 1}</div>
+            <h3>${p.title}</h3>
+            <div class="exec-card-subtitle">${p.subtitle}</div>
+            <div class="exec-card-preview">${p.preview}</div>
+          </div>
+          <div class="exec-card-toggle" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          </div>
         </div>
-        <div class="exec-card-section">
-          <h4>My Solution</h4>
-          <p>${p.solution}</p>
-        </div>
-        <div class="exec-card-section">
-          <h4>Business Impact</h4>
-          <ul class="exec-impact-list">${impactItems}</ul>
-        </div>
-        <div class="exec-card-section exec-card-stack-section">
-          <h4>Technology Stack</h4>
-          <ul class="skill-tags">${stackTags}</ul>
+        <div class="exec-card-body">
+          <div class="exec-card-body-inner">
+            <div class="exec-card-section">
+              <h4>Business Challenge</h4>
+              <p>${p.challenge}</p>
+            </div>
+            <div class="exec-card-section">
+              <h4>My Solution</h4>
+              <p>${p.solution}</p>
+            </div>
+            <div class="exec-card-section">
+              <h4>Business Impact</h4>
+              <ul class="exec-impact-list">${impactItems}</ul>
+            </div>
+            <div class="exec-card-section exec-card-stack-section">
+              <h4>Technology Stack</h4>
+              <ul class="skill-tags">${stackTags}</ul>
+            </div>
+          </div>
         </div>
       </div>`;
     execGrid.appendChild(card);
   });
+
+  /* ---- keep each row's two collapsed cards the same height, without stretching a card whose neighbor is expanded ---- */
+  function equalizeExecCardHeights(){
+    const cards = Array.from(execGrid.querySelectorAll('.exec-card'));
+    for (let i = 0; i < cards.length; i += 2){
+      const a = cards[i], b = cards[i + 1];
+      a.style.minHeight = '';
+      if (!b) continue;
+      b.style.minHeight = '';
+      if (window.innerWidth <= 900 || a.classList.contains('is-expanded') || b.classList.contains('is-expanded')) continue;
+      const h = Math.max(a.offsetHeight, b.offsetHeight);
+      a.style.minHeight = h + 'px';
+      b.style.minHeight = h + 'px';
+    }
+  }
+
+  execGrid.querySelectorAll('.exec-card-head').forEach(head => {
+    head.addEventListener('click', () => {
+      head.closest('.exec-card').classList.toggle('is-expanded');
+      equalizeExecCardHeights();
+      setTimeout(equalizeExecCardHeights, 480);
+    });
+  });
+
+  window.addEventListener('load', equalizeExecCardHeights);
+  let execResizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(execResizeTimer);
+    execResizeTimer = setTimeout(equalizeExecCardHeights, 200);
+  });
+  equalizeExecCardHeights();
 
   gsap.utils.toArray('.exec-card').forEach((el,i)=>{
     gsap.from(el, { y:24, opacity:0, duration:0.6, ease:'power3.out',
