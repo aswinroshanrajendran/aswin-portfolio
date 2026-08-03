@@ -24,11 +24,12 @@ jobs:
       - uses: actions/checkout@v4
       - name: Stage deployed files
         # upload-pages-artifact only accepts a single directory, so the
-        # deployed subset (excluding react-version/ and resources/) is
+        # deployed subset (excluding react-version/ and resources/images/) is
         # copied into _site first.
         run: |
           mkdir _site
           cp index.html aswin-sitting.png aswin-standing.png aswin-quote.png logo-icon.png logo-mark.png _site/
+          cp "resources/Resume/Aswinroshan_Rajendran_Resume.pdf" "resources/Resume/Rajendran_Aswinroshan_CV.pdf" _site/
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site

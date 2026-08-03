@@ -100,7 +100,24 @@
   }
   .icon-btn:hover{ transform:translateY(-3px); }
   .icon-btn svg{ width:20px; height:20px; fill:var(--brass); }
+  .icon-btn-text{ font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:600; letter-spacing:0.03em; color:var(--brass); text-decoration:none; }
   .cta-group .btn{ height:52px; box-sizing:border-box; }
+
+  .resume-toggle{ display:inline-flex; align-items:center; flex:0 0 auto; }
+  .resume-cv-btn{ border:none; cursor:pointer; font:inherit; -webkit-appearance:none; appearance:none; }
+  .resume-toggle.is-open .resume-cv-btn{ box-shadow: inset 0 0 0 1.5px var(--brass), 0 8px 20px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark)*10%), transparent); }
+  .resume-pill{
+    display:flex; align-items:center; justify-content:center; overflow:hidden; white-space:nowrap;
+    height:52px; max-width:0; margin-left:0; padding:0; border-radius:999px; box-sizing:border-box;
+    font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:600; letter-spacing:0.03em; color:var(--brass); text-decoration:none;
+    background-color:color-mix(in srgb, var(--c-glass) 16%, transparent);
+    backdrop-filter:blur(10px) saturate(var(--saturation)); -webkit-backdrop-filter:blur(10px) saturate(var(--saturation));
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light)*40%), transparent), 0 8px 20px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark)*10%), transparent);
+    opacity:0; transform:scale(0.7);
+    transition: max-width .4s cubic-bezier(0.22,1,0.36,1), margin-left .4s cubic-bezier(0.22,1,0.36,1), padding .4s cubic-bezier(0.22,1,0.36,1), opacity .3s ease, transform .4s cubic-bezier(0.22,1,0.36,1);
+  }
+  .resume-pill-fr{ transition-delay:0s, 0s, 0s, .06s, .06s; }
+  .resume-toggle.is-open .resume-pill{ max-width:90px; margin-left:10px; padding:0 20px; opacity:1; transform:scale(1); }
   .hero-visual{ position:relative; display:flex; align-items:flex-end; justify-content:center; height:78vh; max-height:640px; }
   .photo-glow{ position:absolute; bottom:8%; left:50%; transform:translateX(-50%); width:340px; height:340px; border-radius:50%; filter:blur(50px); background:color-mix(in srgb, var(--c-action) 35%, transparent); transition:background 500ms; }
   .hero-photo{
@@ -465,6 +482,11 @@
         <a href="#projects" class="btn btn-glass"><span>View My Work →</span></a>
         <a href="https://www.linkedin.com/in/aswinroshan-rajendran/" target="_blank" rel="noopener" class="icon-btn" aria-label="LinkedIn"><svg viewBox="0 0 448 512"><path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.3-48.29-79.3-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"/></svg></a>
         <a href="https://github.com/aswinroshanrajendran" target="_blank" rel="noopener" class="icon-btn" aria-label="GitHub"><svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.084-.729.084-.729 1.205.084 1.838 1.237 1.838 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.51 11.51 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222 0 1.606-.015 2.898-.015 3.293 0 .322.216.694.825.576C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+        <div class="resume-toggle">
+          <button type="button" class="icon-btn icon-btn-text resume-cv-btn" aria-expanded="false" aria-label="Show resume downloads">CV</button>
+          <a href="Aswinroshan_Rajendran_Resume.pdf" download class="resume-pill resume-pill-en" aria-label="Download English Resume"><span>EN</span></a>
+          <a href="Rajendran_Aswinroshan_CV.pdf" download class="resume-pill resume-pill-fr" aria-label="Download French CV"><span>FR</span></a>
+        </div>
       </div>
     </div>
 
@@ -947,36 +969,57 @@
     .from('.hero-photo', { y:40, opacity:0, duration:0.9 }, '-=0.7')
     .from('.photo-glow', { opacity:0, duration:1.2 }, '-=0.7');
 
+  /* ---- resume CV button: click to reveal EN/FR download pills ---- */
+  const resumeToggle = document.querySelector('.resume-toggle');
+  if (resumeToggle) {
+    const resumeCvBtn = resumeToggle.querySelector('.resume-cv-btn');
+    const closeResumeToggle = () => {
+      resumeToggle.classList.remove('is-open');
+      resumeCvBtn.setAttribute('aria-expanded', 'false');
+    };
+    resumeCvBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = resumeToggle.classList.toggle('is-open');
+      resumeCvBtn.setAttribute('aria-expanded', String(isOpen));
+    });
+    document.addEventListener('click', (e) => {
+      if (!resumeToggle.contains(e.target)) closeResumeToggle();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeResumeToggle();
+    });
+  }
+
   /* ---- scroll reveal: About ---- */
   gsap.registerPlugin(ScrollTrigger);
   gsap.from('.manifesto .eyebrow', { y:16, opacity:0, duration:0.6, ease:'power3.out',
-    scrollTrigger:{ trigger:'.manifesto', start:'top 85%', toggleActions:'play reverse play reverse' } });
+    scrollTrigger:{ trigger:'.manifesto', start:'top 85%', toggleActions:'play none none reverse' } });
   gsap.from('.manifesto h1', { y:24, opacity:0, duration:0.7, delay:0.1, ease:'power3.out',
-    scrollTrigger:{ trigger:'.manifesto', start:'top 85%', toggleActions:'play reverse play reverse' } });
+    scrollTrigger:{ trigger:'.manifesto', start:'top 85%', toggleActions:'play none none reverse' } });
   gsap.from('.manifesto-photo', { y:24, opacity:0, scale:0.96, duration:0.7, ease:'power3.out',
-    scrollTrigger:{ trigger:'.manifesto-body', start:'top 85%', toggleActions:'play reverse play reverse' } });
+    scrollTrigger:{ trigger:'.manifesto-body', start:'top 85%', toggleActions:'play none none reverse' } });
   gsap.utils.toArray('.manifesto-sub').forEach((el,i)=>{
     gsap.from(el, { y:20, opacity:0, duration:0.6, ease:'power3.out',
-      scrollTrigger:{ trigger: el, start:'top 88%', toggleActions:'play reverse play reverse' }, delay:i*0.05 });
+      scrollTrigger:{ trigger: el, start:'top 88%', toggleActions:'play none none reverse' }, delay:i*0.05 });
   });
   gsap.from('.next-chapter', { y:20, opacity:0, duration:0.7, ease:'power3.out',
-    scrollTrigger:{ trigger:'.next-chapter', start:'top 88%', toggleActions:'play reverse play reverse' } });
+    scrollTrigger:{ trigger:'.next-chapter', start:'top 88%', toggleActions:'play none none reverse' } });
   gsap.utils.toArray('.evolution-period').forEach((el,i)=>{
     gsap.from(el, { y:40, opacity:0, duration:0.8, ease:'power2.out',
-      scrollTrigger:{ trigger: el, start:'top 85%', toggleActions:'play reverse play reverse' }, delay:i*0.1 });
+      scrollTrigger:{ trigger: el, start:'top 85%', toggleActions:'play none none reverse' }, delay:i*0.1 });
   });
 
   /* ---- skills grid: each group cascades its own tags in with a confident scale-bounce ---- */
   gsap.utils.toArray('.skills-section .skill-group').forEach(group => {
     gsap.from(group.querySelectorAll('.skill-tags li'), {
       scale:0.85, opacity:0, duration:0.4, ease:'back.out(1.7)', stagger:0.04,
-      scrollTrigger:{ trigger: group, start:'top 88%', toggleActions:'play reverse play reverse' }
+      scrollTrigger:{ trigger: group, start:'top 88%', toggleActions:'play none none reverse' }
     });
   });
 
-  gsap.from('.showcase-section .hover-3d', { y:24, opacity:0, scale:0.94, duration:0.7, scrollTrigger:{ trigger:'.showcase-section', start:'top 85%', toggleActions:'play reverse play reverse' } });
-  gsap.from('.quote-photo', { y:30, opacity:0, duration:0.8, delay:0.1, scrollTrigger:{ trigger:'.showcase-section', start:'top 80%', toggleActions:'play reverse play reverse' } });
-  gsap.from('.quote-card', { y:30, opacity:0, duration:0.8, delay:0.2, scrollTrigger:{ trigger:'.showcase-section', start:'top 80%', toggleActions:'play reverse play reverse' } });
+  gsap.from('.showcase-section .hover-3d', { y:24, opacity:0, scale:0.94, duration:0.7, scrollTrigger:{ trigger:'.showcase-section', start:'top 85%', toggleActions:'play none none reverse' } });
+  gsap.from('.quote-photo', { y:30, opacity:0, duration:0.8, delay:0.1, scrollTrigger:{ trigger:'.showcase-section', start:'top 80%', toggleActions:'play none none reverse' } });
+  gsap.from('.quote-card', { y:30, opacity:0, duration:0.8, delay:0.2, scrollTrigger:{ trigger:'.showcase-section', start:'top 80%', toggleActions:'play none none reverse' } });
 
   /* ---- the six executive projects (single source of truth for the bento overview + the detail cards) ---- */
   const PROJECTS = [
@@ -996,7 +1039,7 @@
       c1:'#3B82F6', c2:'#0ea5e9'
     },
     {
-      title:'AI Lead Intelligence Platform',
+      title:'AI Lead Intelligence Platform (Strategic Recommendation)',
       subtitle:'Automated prospect enrichment and CRM intelligence',
       preview:'Built an automated Clay + Apollo enrichment pipeline that replaced manual, event-by-event prospecting, hitting a <strong>54% verified email rate</strong> on cold contact data.',
       challenge:'Sales and partnership teams relied on manual research to identify company information, LinkedIn profiles, and contact details, largely limited to prospects sourced from competitor events. This resulted in a narrow prospect pool, inconsistent data quality, and significant time investment before outreach campaigns could even begin.',
@@ -1107,17 +1150,17 @@
     card.addEventListener('click', () => activateBento(card.dataset.idx));
   });
 
-  gsap.from('.page-head .eyebrow', { y:16, opacity:0, duration:0.6, scrollTrigger:{ trigger:'.page-head', start:'top 85%', toggleActions:'play reverse play reverse' } });
-  gsap.from('.page-head h1', { y:20, opacity:0, duration:0.7, delay:0.1, scrollTrigger:{ trigger:'.page-head', start:'top 85%', toggleActions:'play reverse play reverse' } });
-  gsap.from('.page-head p', { y:16, opacity:0, duration:0.6, delay:0.2, scrollTrigger:{ trigger:'.page-head', start:'top 85%', toggleActions:'play reverse play reverse' } });
+  gsap.from('.page-head .eyebrow', { y:16, opacity:0, duration:0.6, scrollTrigger:{ trigger:'.page-head', start:'top 85%', toggleActions:'play none none reverse' } });
+  gsap.from('.page-head h1', { y:20, opacity:0, duration:0.7, delay:0.1, scrollTrigger:{ trigger:'.page-head', start:'top 85%', toggleActions:'play none none reverse' } });
+  gsap.from('.page-head p', { y:16, opacity:0, duration:0.6, delay:0.2, scrollTrigger:{ trigger:'.page-head', start:'top 85%', toggleActions:'play none none reverse' } });
   gsap.utils.toArray('.bento-card').forEach((el,i)=>{
     gsap.from(el, { y:24, opacity:0, duration:0.6, ease:'power3.out',
-      scrollTrigger:{ trigger: el, start:'top 92%', toggleActions:'play reverse play reverse' }, delay:i*0.06 });
+      scrollTrigger:{ trigger: el, start:'top 92%', toggleActions:'play none none reverse' }, delay:i*0.06 });
   });
 
-  gsap.from('.case-studies-head .eyebrow', { y:16, opacity:0, duration:0.6, scrollTrigger:{ trigger:'.case-studies-head', start:'top 85%', toggleActions:'play reverse play reverse' } });
-  gsap.from('.case-studies-head h2', { y:20, opacity:0, duration:0.7, delay:0.1, scrollTrigger:{ trigger:'.case-studies-head', start:'top 85%', toggleActions:'play reverse play reverse' } });
-  gsap.from('.case-studies-head p', { y:16, opacity:0, duration:0.6, delay:0.2, scrollTrigger:{ trigger:'.case-studies-head', start:'top 85%', toggleActions:'play reverse play reverse' } });
+  gsap.from('.case-studies-head .eyebrow', { y:16, opacity:0, duration:0.6, scrollTrigger:{ trigger:'.case-studies-head', start:'top 85%', toggleActions:'play none none reverse' } });
+  gsap.from('.case-studies-head h2', { y:20, opacity:0, duration:0.7, delay:0.1, scrollTrigger:{ trigger:'.case-studies-head', start:'top 85%', toggleActions:'play none none reverse' } });
+  gsap.from('.case-studies-head p', { y:16, opacity:0, duration:0.6, delay:0.2, scrollTrigger:{ trigger:'.case-studies-head', start:'top 85%', toggleActions:'play none none reverse' } });
 
   /* ---- six executive project cards - collapsed to a preview by default, expand on click ---- */
   const execGrid = document.getElementById('execGrid');
@@ -1185,33 +1228,33 @@
     head.addEventListener('click', () => {
       head.closest('.exec-card').classList.toggle('is-expanded');
       equalizeExecCardHeights();
-      setTimeout(equalizeExecCardHeights, 480);
+      setTimeout(() => { equalizeExecCardHeights(); ScrollTrigger.refresh(); }, 480);
     });
   });
 
-  window.addEventListener('load', equalizeExecCardHeights);
+  window.addEventListener('load', () => { equalizeExecCardHeights(); ScrollTrigger.refresh(); });
   let execResizeTimer;
   window.addEventListener('resize', () => {
     clearTimeout(execResizeTimer);
-    execResizeTimer = setTimeout(equalizeExecCardHeights, 200);
+    execResizeTimer = setTimeout(() => { equalizeExecCardHeights(); ScrollTrigger.refresh(); }, 200);
   });
   equalizeExecCardHeights();
 
   gsap.utils.toArray('.exec-card').forEach((el,i)=>{
     gsap.from(el, { y:24, opacity:0, duration:0.6, ease:'power3.out',
-      scrollTrigger:{ trigger: el, start:'top 92%', toggleActions:'play reverse play reverse' }, delay:(i % 2) * 0.08 });
+      scrollTrigger:{ trigger: el, start:'top 92%', toggleActions:'play none none reverse' }, delay:(i % 2) * 0.08 });
   });
 
   /* ---- scroll reveal: Contact ---- */
-  tl.from('.contact-hero .eyebrow', { y:16, opacity:0, duration:0.6, scrollTrigger:{ trigger:'.contact-hero', start:'top 85%', toggleActions:'play reverse play reverse' } });
-  gsap.from('.contact-hero h2', { y:24, opacity:0, duration:0.8, scrollTrigger:{ trigger:'.contact-hero', start:'top 85%', toggleActions:'play reverse play reverse' } });
-  gsap.from('.contact-tagline', { y:16, opacity:0, duration:0.6, delay:0.1, scrollTrigger:{ trigger:'.contact-hero', start:'top 85%', toggleActions:'play reverse play reverse' } });
-  gsap.from('.contact-cta .btn', { y:16, opacity:0, duration:0.5, stagger:0.08, delay:0.2, scrollTrigger:{ trigger:'.contact-hero', start:'top 85%', toggleActions:'play reverse play reverse' } });
+  tl.from('.contact-hero .eyebrow', { y:16, opacity:0, duration:0.6, scrollTrigger:{ trigger:'.contact-hero', start:'top 85%', toggleActions:'play none none reverse' } });
+  gsap.from('.contact-hero h2', { y:24, opacity:0, duration:0.8, scrollTrigger:{ trigger:'.contact-hero', start:'top 85%', toggleActions:'play none none reverse' } });
+  gsap.from('.contact-tagline', { y:16, opacity:0, duration:0.6, delay:0.1, scrollTrigger:{ trigger:'.contact-hero', start:'top 85%', toggleActions:'play none none reverse' } });
+  gsap.from('.contact-cta .btn', { y:16, opacity:0, duration:0.5, stagger:0.08, delay:0.2, scrollTrigger:{ trigger:'.contact-hero', start:'top 85%', toggleActions:'play none none reverse' } });
   gsap.utils.toArray('.contact-card').forEach((el,i)=>{
     gsap.from(el, { y:24, opacity:0, duration:0.6, ease:'power3.out',
-      scrollTrigger:{ trigger: el, start:'top 90%', toggleActions:'play reverse play reverse' }, delay:i*0.05 });
+      scrollTrigger:{ trigger: el, start:'top 90%', toggleActions:'play none none reverse' }, delay:i*0.05 });
   });
-  gsap.from('.contact-footer p', { opacity:0, duration:0.8, scrollTrigger:{ trigger:'.contact-footer', start:'top 95%', toggleActions:'play reverse play reverse' } });
+  gsap.from('.contact-footer p', { opacity:0, duration:0.8, scrollTrigger:{ trigger:'.contact-footer', start:'top 95%', toggleActions:'play none none reverse' } });
 </script>
 </body>
 </html>
