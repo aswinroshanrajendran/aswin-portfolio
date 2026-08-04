@@ -71,6 +71,23 @@
   .switcher:has(input[c-option="2"]:checked)::after{ translate:52px 0; transition:translate 400ms cubic-bezier(1,0,0.4,1); }
   .switcher:has(input[c-option="3"]:checked)::after{ translate:104px 0; transition:translate 400ms cubic-bezier(1,0,0.4,1); }
 
+  /* ---- language switcher (same sliding-pill pattern as the theme switcher, 2 options) ---- */
+  .lang-switcher{ position:fixed; z-index:50; top:22px; right:204px; display:flex; align-items:center; gap:6px; width:128px; height:52px; border:none; padding:4px 7px; border-radius:99em;
+    background-color:color-mix(in srgb, var(--c-glass) 12%, transparent);
+    backdrop-filter: blur(8px) saturate(var(--saturation)); -webkit-backdrop-filter: blur(8px) saturate(var(--saturation));
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light)*10%), transparent), 0 6px 16px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark)*8%), transparent);
+    transition: background-color 500ms cubic-bezier(1,0,0.4,1); }
+  .lang-switcher__legend{ position:absolute; width:1px; height:1px; overflow:hidden; }
+  .lang-switcher__input{ clip:rect(0 0 0 0); height:1px; width:1px; overflow:hidden; position:absolute; }
+  .lang-switcher__option{ --c:var(--c-content); display:flex; align-items:center; justify-content:center; gap:5px; width:54px; height:100%; border-radius:99em; position:relative; z-index:2;
+    font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:600; letter-spacing:0.03em; color:var(--c); transition:color 200ms; }
+  .lang-switcher__option:hover{ --c:var(--c-action); cursor:pointer; }
+  .lang-switcher__option:has(:focus-visible){ outline:2px solid var(--brass); outline-offset:2px; }
+  .lang-switcher__flag{ flex:0 0 auto; width:14px; height:14px; border-radius:50%; box-shadow:0 0 0 1px color-mix(in srgb, var(--c-content) 15%, transparent); }
+  .lang-switcher::after{ content:''; position:absolute; left:4px; top:4px; width:54px; height:calc(100% - 8px); border-radius:99em; background-color:color-mix(in srgb, var(--c-glass) 36%, transparent); z-index:1; }
+  .lang-switcher:has(input[value="en"]:checked)::after{ translate:0 0; transition:translate 400ms cubic-bezier(1,0,0.4,1); }
+  .lang-switcher:has(input[value="fr"]:checked)::after{ translate:60px 0; transition:translate 400ms cubic-bezier(1,0,0.4,1); }
+
   .topbar{ position:fixed; top:0; left:0; right:0; z-index:40; display:flex; align-items:center; justify-content:space-between; padding:30px 44px; pointer-events:none; }
   .brand{ font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.14em; font-weight:500; display:flex; align-items:center; gap:8px; }
   .brand img{ width:22px; height:22px; object-fit:contain; }
@@ -436,6 +453,7 @@
 
   @media (max-width:480px){
     .switcher{ top:16px; right:16px; }
+    .lang-switcher{ top:76px; right:16px; }
     .side-fab{ right:16px; }
     .side-fab-toggle{ width:46px; height:46px; }
     .side-fab-toggle svg{ width:16px; height:16px; }
@@ -456,8 +474,38 @@
     </filter>
   </svg>
 
+  <fieldset class="lang-switcher" id="langSwitcher">
+    <legend class="lang-switcher__legend" data-i18n="lang-switcher-legend">Language</legend>
+    <label class="lang-switcher__option">
+      <input class="lang-switcher__input" type="radio" name="lang" value="en" checked>
+      <svg class="lang-switcher__flag" viewBox="0 0 16 16" aria-hidden="true">
+        <clipPath id="flagClipGB"><circle cx="8" cy="8" r="8"/></clipPath>
+        <g clip-path="url(#flagClipGB)">
+          <rect width="16" height="16" fill="#012169"/>
+          <path d="M0 0L16 16M16 0L0 16" stroke="#fff" stroke-width="3.2"/>
+          <path d="M0 0L16 16M16 0L0 16" stroke="#C8102E" stroke-width="1.4"/>
+          <path d="M8 0V16M0 8H16" stroke="#fff" stroke-width="5.4"/>
+          <path d="M8 0V16M0 8H16" stroke="#C8102E" stroke-width="3.2"/>
+        </g>
+      </svg>
+      <span aria-hidden="true">EN</span>
+    </label>
+    <label class="lang-switcher__option">
+      <input class="lang-switcher__input" type="radio" name="lang" value="fr">
+      <svg class="lang-switcher__flag" viewBox="0 0 16 16" aria-hidden="true">
+        <clipPath id="flagClipFR"><circle cx="8" cy="8" r="8"/></clipPath>
+        <g clip-path="url(#flagClipFR)">
+          <rect x="0" width="5.34" height="16" fill="#0055A4"/>
+          <rect x="5.34" width="5.34" height="16" fill="#fff"/>
+          <rect x="10.67" width="5.34" height="16" fill="#EF4135"/>
+        </g>
+      </svg>
+      <span aria-hidden="true">FR</span>
+    </label>
+  </fieldset>
+
   <fieldset class="switcher" id="switcher">
-    <legend class="switcher__legend">Theme</legend>
+    <legend class="switcher__legend" data-i18n="theme-switcher-legend">Theme</legend>
     <label class="switcher__option">
       <input class="switcher__input" type="radio" name="theme" value="light" c-option="1" checked>
       <svg class="switcher__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><line x1="12" y1="1" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="23"/><line x1="1" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="23" y2="12"/><line x1="4.2" y1="4.2" x2="6.3" y2="6.3"/><line x1="17.7" y1="17.7" x2="19.8" y2="19.8"/><line x1="4.2" y1="19.8" x2="6.3" y2="17.7"/><line x1="17.7" y1="6.3" x2="19.8" y2="4.2"/></svg>
@@ -475,7 +523,7 @@
   <header class="topbar">
     <div style="display:flex; align-items:center;">
       <span class="brand"><img src="logo-icon.png" alt="">ASWIN</span>
-      <span class="status">Open to Growth Ops / GTM / RevOps roles</span>
+      <span class="status" data-i18n="topbar-status">Open to Growth Ops / GTM / RevOps roles</span>
     </div>
     <div></div>
   </header>
@@ -485,18 +533,18 @@
     <canvas class="hero-glow" id="heroGlowCanvas"></canvas>
 
     <div class="hero-copy">
-      <div class="eyebrow">Growth Strategy · Business Operations · AI</div>
+      <div class="eyebrow" data-i18n="hero-eyebrow">Growth Strategy · Business Operations · AI</div>
       <h1>Aswin</h1>
       <div class="role">Growth &amp; GTM Operations</div>
-      <p class="tagline">I identify business bottlenecks and design AI-powered growth systems that improve operational efficiency, accelerate decision-making, and help organizations scale faster.</p>
+      <p class="tagline" data-i18n="hero-tagline">I identify business bottlenecks and design AI-powered growth systems that improve operational efficiency, accelerate decision-making, and help organizations scale faster.</p>
       <div class="cta-group">
-        <a href="#projects" class="btn btn-glass"><span>View My Work →</span></a>
+        <a href="#projects" class="btn btn-glass"><span data-i18n="hero-cta-work">View My Work →</span></a>
         <a href="https://www.linkedin.com/in/aswinroshan-rajendran/" target="_blank" rel="noopener" class="icon-btn" aria-label="LinkedIn"><svg viewBox="0 0 448 512"><path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.3-48.29-79.3-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"/></svg></a>
         <a href="https://github.com/aswinroshanrajendran" target="_blank" rel="noopener" class="icon-btn" aria-label="GitHub"><svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.084-.729.084-.729 1.205.084 1.838 1.237 1.838 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.51 11.51 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222 0 1.606-.015 2.898-.015 3.293 0 .322.216.694.825.576C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
         <div class="resume-toggle">
-          <button type="button" class="icon-btn icon-btn-text resume-cv-btn" aria-expanded="false" aria-label="Show resume downloads">CV</button>
-          <a href="Aswinroshan_Rajendran_Resume.pdf" target="_blank" rel="noopener" class="resume-pill resume-pill-en" aria-label="Open English Resume"><span>EN</span></a>
-          <a href="Rajendran_Aswinroshan_CV.pdf" target="_blank" rel="noopener" class="resume-pill resume-pill-fr" aria-label="Open French CV"><span>FR</span></a>
+          <button type="button" class="icon-btn icon-btn-text resume-cv-btn" aria-expanded="false" data-i18n-attr="aria-label:resume-cv-aria" aria-label="Show resume downloads">CV</button>
+          <a href="Aswinroshan_Rajendran_Resume.pdf" target="_blank" rel="noopener" class="resume-pill resume-pill-en" data-i18n-attr="aria-label:resume-en-aria" aria-label="Open English Resume"><span>EN</span></a>
+          <a href="Rajendran_Aswinroshan_CV.pdf" target="_blank" rel="noopener" class="resume-pill resume-pill-fr" data-i18n-attr="aria-label:resume-fr-aria" aria-label="Open French CV"><span>FR</span></a>
         </div>
       </div>
     </div>
@@ -509,21 +557,21 @@
 
   <!-- ================= ABOUT ================= -->
   <section class="manifesto" id="about">
-    <div class="eyebrow">About - The Business Strategist</div>
-    <h1>I believe technology is most valuable when it solves <strong>real business problems</strong>.</h1>
+    <div class="eyebrow" data-i18n="about-eyebrow">About - The Business Strategist</div>
+    <h1 data-i18n="about-heading">I believe technology is most valuable when it solves <strong>real business problems</strong>.</h1>
     <div class="manifesto-body">
       <div class="manifesto-photo">
         <div class="manifesto-photo-glow"></div>
         <img src="aswin-sitting.png" alt="Aswin" width="561" height="391">
       </div>
       <div class="manifesto-copy">
-        <p class="manifesto-sub">My career has been centered on understanding how businesses operate, identifying opportunities for growth, and designing technology-enabled solutions that create measurable business impact.</p>
-        <p class="manifesto-sub">From optimizing operations and digitizing business processes to designing AI-powered growth systems for international events, every project has reinforced one belief: technology delivers value only when it solves the right business problem.</p>
-        <p class="manifesto-sub">Today, I focus on building scalable solutions that improve business operations,
+        <p class="manifesto-sub" data-i18n="about-p1">My career has been centered on understanding how businesses operate, identifying opportunities for growth, and designing technology-enabled solutions that create measurable business impact.</p>
+        <p class="manifesto-sub" data-i18n="about-p2">From optimizing operations and digitizing business processes to designing AI-powered growth systems for international events, every project has reinforced one belief: technology delivers value only when it solves the right business problem.</p>
+        <p class="manifesto-sub" data-i18n="about-p3">Today, I focus on building scalable solutions that improve business operations,
           accelerate growth, and enable smarter decision-making through AI, automation, and analytics. Tomorrow,
           I aspire to lead organizations where technology is not just implemented, but strategically used to
           transform the way businesses operate, grow, and create lasting impact.</p>
-        <p class="manifesto-sub">This portfolio is a collection of that journey not just what I've built,
+        <p class="manifesto-sub" data-i18n="about-p4">This portfolio is a collection of that journey not just what I've built,
           but how I think, solve problems, and prepare for the future.</p>
       </div>
     </div>
@@ -531,37 +579,37 @@
 
   <!-- ================= PROJECTS ================= -->
   <div class="page-head" id="projects">
-    <div class="eyebrow">Business Transformation Projects</div>
-    <h1>A quick look at the work</h1>
-    <p>Six real business problems, grouped by focus area - hover a group to explore, click through for the full breakdown.</p>
+    <div class="eyebrow" data-i18n="biz-transformation-projects-eyebrow">Business Transformation Projects</div>
+    <h1 data-i18n="projects-h1">A quick look at the work</h1>
+    <p data-i18n="projects-p">Six real business problems, grouped by focus area - hover a group to explore, click through for the full breakdown.</p>
   </div>
   <div class="bento-grid" id="grid" data-active="0"></div>
 
   <!-- ================= CASE STUDIES ================= -->
   <div class="case-studies-head" id="case-studies">
-    <div class="eyebrow">Business Transformation Projects</div>
-    <h2>Selected work, summarized for decision-makers</h2>
-    <p>Six engagements across growth, automation, and business intelligence - challenge, solution, and measurable impact for each.</p>
+    <div class="eyebrow" data-i18n="biz-transformation-projects-eyebrow">Business Transformation Projects</div>
+    <h2 data-i18n="case-studies-h2">Selected work, summarized for decision-makers</h2>
+    <p data-i18n="case-studies-p">Six engagements across growth, automation, and business intelligence - challenge, solution, and measurable impact for each.</p>
   </div>
 
   <div class="exec-grid" id="execGrid"></div>
 
   <!-- ================= PROFESSIONAL EVOLUTION ================= -->
   <section class="professional-evolution" id="professional">
-    <div class="section-label">Professional Evolution</div>
+    <div class="section-label" data-i18n="evolution-section-label">Professional Evolution</div>
     <div class="evolution-header">
-      <p>Every stage of my career has expanded the scope of the problems I solve—from executing operations, to optimizing business systems, to designing growth strategies powered by data and AI. This journey reflects not only the roles I've held, but how my perspective on creating business value continues to evolve.</p>
+      <p data-i18n="evolution-header-p">Every stage of my career has expanded the scope of the problems I solve—from executing operations, to optimizing business systems, to designing growth strategies powered by data and AI. This journey reflects not only the roles I've held, but how my perspective on creating business value continues to evolve.</p>
     </div>
 
     <div class="evolution-timeline">
       <div class="evolution-period">
         <div class="evolution-years">2018 — 2020</div>
         <h3>Operations Coordinator</h3>
-        <div class="evolution-subtitle">Learning How Organizations Operate</div>
-        <p>This stage built my operational foundation. I coordinated large-scale initiatives, managed relationships with government officials and media organizations, and supported the successful execution of national events. Working closely with diverse stakeholders taught me that great execution depends on strong communication, structured processes, and operational discipline.</p>
+        <div class="evolution-subtitle" data-i18n="period-0-subtitle">Learning How Organizations Operate</div>
+        <p data-i18n="period-0-p">This stage built my operational foundation. I coordinated large-scale initiatives, managed relationships with government officials and media organizations, and supported the successful execution of national events. Working closely with diverse stakeholders taught me that great execution depends on strong communication, structured processes, and operational discipline.</p>
         <div class="evolution-focus">
-          <div class="focus-label">Key Focus</div>
-          <ul class="focus-list">
+          <div class="focus-label" data-i18n="focus-label-key">Key Focus</div>
+          <ul class="focus-list" data-i18n="period-0-focus">
             <li>Operational Execution</li>
             <li>Stakeholder Management</li>
             <li>Event Operations</li>
@@ -574,11 +622,11 @@
       <div class="evolution-period">
         <div class="evolution-years">2020 — 2023</div>
         <h3>Business Operations Analyst</h3>
-        <div class="evolution-subtitle">Transforming Processes Through Data & Technology</div>
-        <p>After understanding how operations worked, I shifted my focus to improving them. I analyzed business workflows, identified operational bottlenecks, redesigned manual processes, and introduced digital systems that improved efficiency, reporting, and decision-making. This stage strengthened my ability to connect business objectives with technology-driven solutions.</p>
+        <div class="evolution-subtitle" data-i18n="period-1-subtitle">Transforming Processes Through Data & Technology</div>
+        <p data-i18n="period-1-p">After understanding how operations worked, I shifted my focus to improving them. I analyzed business workflows, identified operational bottlenecks, redesigned manual processes, and introduced digital systems that improved efficiency, reporting, and decision-making. This stage strengthened my ability to connect business objectives with technology-driven solutions.</p>
         <div class="evolution-focus">
-          <div class="focus-label">Key Focus</div>
-          <ul class="focus-list">
+          <div class="focus-label" data-i18n="focus-label-key">Key Focus</div>
+          <ul class="focus-list" data-i18n="period-1-focus">
             <li>Business Analysis</li>
             <li>Digital Transformation</li>
             <li>Process Optimization</li>
@@ -592,11 +640,11 @@
       <div class="evolution-period">
         <div class="evolution-years">2025 — 2026</div>
         <h3>Growth Operations, Data & AI</h3>
-        <div class="evolution-subtitle">Scaling Growth Through AI & Intelligent Systems</div>
-        <p>My focus expanded beyond internal operations to business growth. I designed AI-powered automation, built data intelligence pipelines, supported go-to-market initiatives, and optimized marketing and revenue operations for international technology events. Working across Growth, Marketing, Sales, and Operations reinforced how connected business functions drive sustainable growth.</p>
+        <div class="evolution-subtitle" data-i18n="period-2-subtitle">Scaling Growth Through AI & Intelligent Systems</div>
+        <p data-i18n="period-2-p">My focus expanded beyond internal operations to business growth. I designed AI-powered automation, built data intelligence pipelines, supported go-to-market initiatives, and optimized marketing and revenue operations for international technology events. Working across Growth, Marketing, Sales, and Operations reinforced how connected business functions drive sustainable growth.</p>
         <div class="evolution-focus">
-          <div class="focus-label">Key Focus</div>
-          <ul class="focus-list">
+          <div class="focus-label" data-i18n="focus-label-key">Key Focus</div>
+          <ul class="focus-list" data-i18n="period-2-focus">
             <li>Growth Operations</li>
             <li>Go-to-Market Strategy</li>
             <li>Marketing Operations</li>
@@ -609,13 +657,13 @@
       </div>
 
       <div class="evolution-period evolution-next-chapter">
-        <div class="evolution-subtitle-main">Next Chapter</div>
-        <h3>Growth Strategy → Business Transformation → Executive Leadership</h3>
-        <p>My next step is to move from building business systems to defining the strategies behind them. I aim to help organizations identify growth opportunities, solve complex operational challenges, and leverage AI, automation, and data as strategic business enablers rather than isolated technologies.</p>
-        <p>My long-term ambition is to lead organizations where business strategy, technology, and operational excellence work together to create measurable and sustainable growth.</p>
+        <div class="evolution-subtitle-main" data-i18n="next-chapter-label">Next Chapter</div>
+        <h3 data-i18n="next-chapter-h3">Growth Strategy → Business Transformation → Executive Leadership</h3>
+        <p data-i18n="next-chapter-p1">My next step is to move from building business systems to defining the strategies behind them. I aim to help organizations identify growth opportunities, solve complex operational challenges, and leverage AI, automation, and data as strategic business enablers rather than isolated technologies.</p>
+        <p data-i18n="next-chapter-p2">My long-term ambition is to lead organizations where business strategy, technology, and operational excellence work together to create measurable and sustainable growth.</p>
         <div class="evolution-focus">
-          <div class="focus-label">Future Focus</div>
-          <ul class="focus-list">
+          <div class="focus-label" data-i18n="focus-label-future">Future Focus</div>
+          <ul class="focus-list" data-i18n="next-chapter-focus">
             <li>Growth Strategy</li>
             <li>Business Strategy</li>
             <li>Business Transformation</li>
@@ -631,20 +679,20 @@
 
   <!-- ================= CORE SKILLS & TOOLS ================= -->
   <section class="skills-section" id="skills">
-    <div class="section-label">Core Skills &amp; Tools</div>
+    <div class="section-label" data-i18n="skills-section-label">Core Skills &amp; Tools</div>
     <div class="skills-grid">
       <div class="skill-group">
         <div class="p-card-blob" style="background:#C9A15A; width:55%; height:48%; top:-10%; left:-8%;"></div>
         <div class="p-card-blob" style="background:#4A7A78; width:48%; height:42%; bottom:-10%; right:-6%;"></div>
         <div class="skill-group-inner">
-          <h3>Growth &amp; GTM</h3>
+          <h3 data-i18n="skill-group-0-h3">Growth &amp; GTM</h3>
           <ul class="skill-tags">
             <li>n8n</li>
             <li>Clay</li>
             <li>Apollo</li>
             <li>Lemlist</li>
-            <li>CRM Operations</li>
-            <li>Campaign Automation</li>
+            <li data-i18n="skill-tag-crm-ops">CRM Operations</li>
+            <li data-i18n="skill-tag-campaign-automation">Campaign Automation</li>
           </ul>
         </div>
       </div>
@@ -652,13 +700,13 @@
         <div class="p-card-blob" style="background:#3B82F6; width:55%; height:48%; top:-10%; left:-8%;"></div>
         <div class="p-card-blob" style="background:#8B5CF6; width:48%; height:42%; bottom:-10%; right:-6%;"></div>
         <div class="skill-group-inner">
-          <h3>AI &amp; Automation</h3>
+          <h3 data-i18n="skill-group-1-h3">AI &amp; Automation</h3>
           <ul class="skill-tags">
             <li>OpenAI / Gemini</li>
             <li>Prompt Engineering</li>
             <li>RAG Workflows</li>
             <li>Python</li>
-            <li>Workflow Automation</li>
+            <li data-i18n="skill-tag-workflow-automation">Workflow Automation</li>
           </ul>
         </div>
       </div>
@@ -666,12 +714,12 @@
         <div class="p-card-blob" style="background:#D9713C; width:55%; height:48%; top:-10%; left:-8%;"></div>
         <div class="p-card-blob" style="background:#0ea5e9; width:48%; height:42%; bottom:-10%; right:-6%;"></div>
         <div class="skill-group-inner">
-          <h3>Data &amp; Analytics</h3>
+          <h3 data-i18n="skill-group-2-h3">Data &amp; Analytics</h3>
           <ul class="skill-tags">
             <li>SQL</li>
             <li>Web Scraping</li>
-            <li>Data Enrichment</li>
-            <li>Executive Dashboards &amp; Reporting</li>
+            <li data-i18n="skill-tag-data-enrichment">Data Enrichment</li>
+            <li data-i18n="skill-tag-exec-dashboards-reporting">Executive Dashboards &amp; Reporting</li>
             <li>Google Apps Script</li>
           </ul>
         </div>
@@ -680,13 +728,13 @@
         <div class="p-card-blob" style="background:#8B5CF6; width:55%; height:48%; top:-10%; left:-8%;"></div>
         <div class="p-card-blob" style="background:#C9A15A; width:48%; height:42%; bottom:-10%; right:-6%;"></div>
         <div class="skill-group-inner">
-          <h3>Strategy &amp; Business</h3>
+          <h3 data-i18n="skill-group-3-h3">Strategy &amp; Business</h3>
           <ul class="skill-tags">
-            <li>Product Strategy</li>
-            <li>Business Consulting</li>
-            <li>User Journey Mapping</li>
-            <li>Digital Transformation</li>
-            <li>Stakeholder Management</li>
+            <li data-i18n="skill-tag-product-strategy">Product Strategy</li>
+            <li data-i18n="skill-tag-business-consulting">Business Consulting</li>
+            <li data-i18n="skill-tag-user-journey-mapping">User Journey Mapping</li>
+            <li data-i18n="skill-tag-digital-transformation">Digital Transformation</li>
+            <li data-i18n="skill-tag-stakeholder-management">Stakeholder Management</li>
           </ul>
         </div>
       </div>
@@ -712,7 +760,7 @@
                 +33 7 45 53 22 98<br>
                 linkedin.com/in/aswinroshan-rajendran
               </div>
-              <div class="card-focus">Growth Ops · GTM · RevOps · Business Strategy</div>
+              <div class="card-focus" data-i18n="card-focus">Growth Ops · GTM · RevOps · Business Strategy</div>
             </div>
           </div>
         </figure>
@@ -728,7 +776,7 @@
     </div>
 
     <div class="quote-card">
-      <p>"The future doesn't belong to those who build the most technology.
+      <p data-i18n="quote-text">"The future doesn't belong to those who build the most technology.
         It belongs to those who know where technology creates the <strong>most value</strong>."</p>
       <div class="quote-attr">- Aswin</div>
     </div>
@@ -736,51 +784,51 @@
 
   <!-- ================= CONTACT ================= -->
   <section class="contact-hero" id="contact">
-    <div class="eyebrow">Contact</div>
-    <h2>Let's build something <em>worth building</em>.</h2>
-    <p class="contact-tagline">Open to Growth Operations, GTM, RevOps, and Business Strategy roles.
+    <div class="eyebrow" data-i18n="contact-eyebrow">Contact</div>
+    <h2 data-i18n="contact-h2">Let's build something <em>worth building</em>.</h2>
+    <p class="contact-tagline" data-i18n="contact-tagline">Open to Growth Operations, GTM, RevOps, and Business Strategy roles.
       If there's a growth or operational problem worth solving, I'd like to hear about it.</p>
     <div class="contact-cta">
-      <a href="mailto:aswinroshan17@gmail.com" class="btn btn-solid"><span>Send an Email →</span></a>
-      <a href="tel:+33745532298" class="btn btn-glass"><span>Call / WhatsApp</span></a>
+      <a href="mailto:aswinroshan17@gmail.com" class="btn btn-solid"><span data-i18n="contact-cta-email">Send an Email →</span></a>
+      <a href="tel:+33745532298" class="btn btn-glass"><span data-i18n="contact-cta-call">Call / WhatsApp</span></a>
     </div>
   </section>
 
   <section class="contact-section">
-    <div class="section-label">Direct Channels</div>
+    <div class="section-label" data-i18n="contact-section-label">Direct Channels</div>
     <div class="contact-grid">
       <a class="contact-card" href="mailto:aswinroshan17@gmail.com">
         <span class="contact-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
         <span>
-          <span class="contact-card__label">Email</span>
+          <span class="contact-card__label" data-i18n="contact-label-email">Email</span>
           <span class="contact-card__value">aswinroshan17@gmail.com</span>
         </span>
       </a>
       <a class="contact-card" href="tel:+33745532298">
         <span class="contact-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>
         <span>
-          <span class="contact-card__label">Phone / WhatsApp</span>
+          <span class="contact-card__label" data-i18n="contact-label-phone">Phone / WhatsApp</span>
           <span class="contact-card__value">+33 7 45 53 22 98</span>
         </span>
       </a>
       <a class="contact-card" href="https://www.linkedin.com/in/aswinroshan-rajendran/" target="_blank" rel="noopener">
         <span class="contact-card__icon"><svg class="contact-card__icon--brand" viewBox="0 0 448 512"><path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.3-48.29-79.3-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"/></svg></span>
         <span>
-          <span class="contact-card__label">LinkedIn</span>
-          <span class="contact-card__value">Connect on LinkedIn</span>
+          <span class="contact-card__label" data-i18n="contact-label-linkedin">LinkedIn</span>
+          <span class="contact-card__value" data-i18n="contact-value-linkedin">Connect on LinkedIn</span>
         </span>
       </a>
       <a class="contact-card" href="https://github.com/aswinroshanrajendran" target="_blank" rel="noopener">
         <span class="contact-card__icon"><svg class="contact-card__icon--brand" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.084-.729.084-.729 1.205.084 1.838 1.237 1.838 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.51 11.51 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222 0 1.606-.015 2.898-.015 3.293 0 .322.216.694.825.576C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></span>
         <span>
-          <span class="contact-card__label">GitHub</span>
-          <span class="contact-card__value">View my repositories</span>
+          <span class="contact-card__label" data-i18n="contact-label-github">GitHub</span>
+          <span class="contact-card__value" data-i18n="contact-value-github">View my repositories</span>
         </span>
       </a>
       <span class="contact-card" style="cursor:default;">
         <span class="contact-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></span>
         <span>
-          <span class="contact-card__label">Location</span>
+          <span class="contact-card__label" data-i18n="contact-label-location">Location</span>
           <span class="contact-card__value">Paris, France</span>
         </span>
       </span>
@@ -788,33 +836,257 @@
   </section>
 
   <section class="contact-footer">
-    <p>Currently based in Paris - open to relocation for the right opportunity.</p>
+    <p data-i18n="contact-footer-p">Currently based in Paris - open to relocation for the right opportunity.</p>
   </section>
 
   <div class="side-fab" id="sideFab">
-    <button class="side-fab-toggle" id="sideFabToggle" aria-label="Open navigation" aria-expanded="false" aria-controls="sideFabItems">
+    <button class="side-fab-toggle" id="sideFabToggle" data-i18n-attr="aria-label:side-fab-open-aria" aria-label="Open navigation" aria-expanded="false" aria-controls="sideFabItems">
       <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
     </button>
     <menu class="side-fab-items" id="sideFabItems">
-      <a class="side-fab-item" href="#home" data-label="Home" style="--i:0; --tx:-39px; --ty:108px">
+      <a class="side-fab-item" href="#home" data-label="Home" data-i18n-attr="data-label:side-fab-label-home" style="--i:0; --tx:-39px; --ty:108px">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9"/></svg>
       </a>
-      <a class="side-fab-item" href="#about" data-label="About" style="--i:1; --tx:-94px; --ty:66px">
+      <a class="side-fab-item" href="#about" data-label="About" data-i18n-attr="data-label:side-fab-label-about" style="--i:1; --tx:-94px; --ty:66px">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>
       </a>
-      <a class="side-fab-item" href="#projects" data-label="Projects" style="--i:2; --tx:-115px; --ty:0px">
+      <a class="side-fab-item" href="#projects" data-label="Projects" data-i18n-attr="data-label:side-fab-label-projects" style="--i:2; --tx:-115px; --ty:0px">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
       </a>
-      <a class="side-fab-item" href="#case-studies" data-label="Portfolio" style="--i:3; --tx:-94px; --ty:-66px">
+      <a class="side-fab-item" href="#case-studies" data-label="Portfolio" data-i18n-attr="data-label:side-fab-label-portfolio" style="--i:3; --tx:-94px; --ty:-66px">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/></svg>
       </a>
-      <a class="side-fab-item" href="#contact" data-label="Contact" style="--i:4; --tx:-39px; --ty:-108px">
+      <a class="side-fab-item" href="#contact" data-label="Contact" data-i18n-attr="data-label:side-fab-label-contact" style="--i:4; --tx:-39px; --ty:-108px">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
       </a>
     </menu>
   </div>
 
 <script>
+  /* ==================================================================
+     i18n: EN/FR text swap. STRINGS.en/.fr are keyed dictionaries; any
+     element tagged data-i18n="key" gets its innerHTML replaced, and any
+     element tagged data-i18n-attr="attrName:key[;attrName2:key2]" gets
+     those attributes replaced. Project-card keys (project-N-*, category-
+     N-*) are appended further down once PROJECTS/PROJECT_CATEGORIES
+     exist. Language choice persists in localStorage; default is English
+     and the English strings below are a 1:1 copy of the static markup,
+     so switching to 'en' is always a safe no-op reset.
+     ================================================================== */
+  const STRINGS = { en:{}, fr:{} };
+  Object.assign(STRINGS.en, {
+    'lang-switcher-legend':'Language',
+    'theme-switcher-legend':'Theme',
+    'topbar-status':'Open to Growth Ops / GTM / RevOps roles',
+    'hero-eyebrow':'Growth Strategy · Business Operations · AI',
+    'hero-tagline':'I identify business bottlenecks and design AI-powered growth systems that improve operational efficiency, accelerate decision-making, and help organizations scale faster.',
+    'hero-cta-work':'View My Work →',
+    'resume-cv-aria':'Show resume downloads',
+    'resume-en-aria':'Open English Resume',
+    'resume-fr-aria':'Open French CV',
+    'about-eyebrow':'About - The Business Strategist',
+    'about-heading':'I believe technology is most valuable when it solves <strong>real business problems</strong>.',
+    'about-p1':'My career has been centered on understanding how businesses operate, identifying opportunities for growth, and designing technology-enabled solutions that create measurable business impact.',
+    'about-p2':'From optimizing operations and digitizing business processes to designing AI-powered growth systems for international events, every project has reinforced one belief: technology delivers value only when it solves the right business problem.',
+    'about-p3':'Today, I focus on building scalable solutions that improve business operations, accelerate growth, and enable smarter decision-making through AI, automation, and analytics. Tomorrow, I aspire to lead organizations where technology is not just implemented, but strategically used to transform the way businesses operate, grow, and create lasting impact.',
+    'about-p4':'This portfolio is a collection of that journey not just what I\'ve built, but how I think, solve problems, and prepare for the future.',
+    'biz-transformation-projects-eyebrow':'Business Transformation Projects',
+    'projects-h1':'A quick look at the work',
+    'projects-p':'Six real business problems, grouped by focus area - hover a group to explore, click through for the full breakdown.',
+    'bento-hint':'+ Know more',
+    'bento-link':'View Project Portfolio →',
+    'case-studies-h2':'Selected work, summarized for decision-makers',
+    'case-studies-p':'Six engagements across growth, automation, and business intelligence - challenge, solution, and measurable impact for each.',
+    'exec-section-challenge-label':'Business Challenge',
+    'exec-section-solution-label':'My Solution',
+    'exec-section-impact-label':'Business Impact',
+    'exec-section-stack-label':'Technology Stack',
+    'evolution-section-label':'Professional Evolution',
+    'evolution-header-p':'Every stage of my career has expanded the scope of the problems I solve—from executing operations, to optimizing business systems, to designing growth strategies powered by data and AI. This journey reflects not only the roles I\'ve held, but how my perspective on creating business value continues to evolve.',
+    'focus-label-key':'Key Focus',
+    'focus-label-future':'Future Focus',
+    'period-0-subtitle':'Learning How Organizations Operate',
+    'period-0-p':'This stage built my operational foundation. I coordinated large-scale initiatives, managed relationships with government officials and media organizations, and supported the successful execution of national events. Working closely with diverse stakeholders taught me that great execution depends on strong communication, structured processes, and operational discipline.',
+    'period-0-focus':'<li>Operational Execution</li><li>Stakeholder Management</li><li>Event Operations</li><li>Cross-functional Collaboration</li><li>Process Coordination</li>',
+    'period-1-subtitle':'Transforming Processes Through Data &amp; Technology',
+    'period-1-p':'After understanding how operations worked, I shifted my focus to improving them. I analyzed business workflows, identified operational bottlenecks, redesigned manual processes, and introduced digital systems that improved efficiency, reporting, and decision-making. This stage strengthened my ability to connect business objectives with technology-driven solutions.',
+    'period-1-focus':'<li>Business Analysis</li><li>Digital Transformation</li><li>Process Optimization</li><li>Executive Dashboards</li><li>Workflow Automation</li><li>Business Consulting</li>',
+    'period-2-subtitle':'Scaling Growth Through AI &amp; Intelligent Systems',
+    'period-2-p':'My focus expanded beyond internal operations to business growth. I designed AI-powered automation, built data intelligence pipelines, supported go-to-market initiatives, and optimized marketing and revenue operations for international technology events. Working across Growth, Marketing, Sales, and Operations reinforced how connected business functions drive sustainable growth.',
+    'period-2-focus':'<li>Growth Operations</li><li>Go-to-Market Strategy</li><li>Marketing Operations</li><li>Revenue Operations</li><li>AI Automation</li><li>Business Intelligence</li><li>Data Strategy</li>',
+    'next-chapter-label':'Next Chapter',
+    'next-chapter-h3':'Growth Strategy → Business Transformation → Executive Leadership',
+    'next-chapter-p1':'My next step is to move from building business systems to defining the strategies behind them. I aim to help organizations identify growth opportunities, solve complex operational challenges, and leverage AI, automation, and data as strategic business enablers rather than isolated technologies.',
+    'next-chapter-p2':'My long-term ambition is to lead organizations where business strategy, technology, and operational excellence work together to create measurable and sustainable growth.',
+    'next-chapter-focus':'<li>Growth Strategy</li><li>Business Strategy</li><li>Business Transformation</li><li>AI Strategy</li><li>Product Strategy</li><li>Revenue Strategy</li><li>Executive Leadership</li>',
+    'skills-section-label':'Core Skills &amp; Tools',
+    'skill-group-0-h3':'Growth &amp; GTM',
+    'skill-group-1-h3':'AI &amp; Automation',
+    'skill-group-2-h3':'Data &amp; Analytics',
+    'skill-group-3-h3':'Strategy &amp; Business',
+    'skill-tag-crm-ops':'CRM Operations',
+    'skill-tag-campaign-automation':'Campaign Automation',
+    'skill-tag-workflow-automation':'Workflow Automation',
+    'skill-tag-data-enrichment':'Data Enrichment',
+    'skill-tag-exec-dashboards-reporting':'Executive Dashboards &amp; Reporting',
+    'skill-tag-product-strategy':'Product Strategy',
+    'skill-tag-business-consulting':'Business Consulting',
+    'skill-tag-user-journey-mapping':'User Journey Mapping',
+    'skill-tag-digital-transformation':'Digital Transformation',
+    'skill-tag-stakeholder-management':'Stakeholder Management',
+    'card-focus':'Growth Ops · GTM · RevOps · Business Strategy',
+    'quote-text':'"The future doesn\'t belong to those who build the most technology.\n        It belongs to those who know where technology creates the <strong>most value</strong>."',
+    'contact-eyebrow':'Contact',
+    'contact-h2':'Let\'s build something <em>worth building</em>.',
+    'contact-tagline':'Open to Growth Operations, GTM, RevOps, and Business Strategy roles.\n      If there\'s a growth or operational problem worth solving, I\'d like to hear about it.',
+    'contact-cta-email':'Send an Email →',
+    'contact-cta-call':'Call / WhatsApp',
+    'contact-section-label':'Direct Channels',
+    'contact-label-email':'Email',
+    'contact-label-phone':'Phone / WhatsApp',
+    'contact-label-linkedin':'LinkedIn',
+    'contact-label-github':'GitHub',
+    'contact-label-location':'Location',
+    'contact-value-linkedin':'Connect on LinkedIn',
+    'contact-value-github':'View my repositories',
+    'contact-footer-p':'Currently based in Paris - open to relocation for the right opportunity.',
+    'side-fab-open-aria':'Open navigation',
+    'side-fab-label-home':'Home',
+    'side-fab-label-about':'About',
+    'side-fab-label-projects':'Projects',
+    'side-fab-label-portfolio':'Portfolio',
+    'side-fab-label-contact':'Contact',
+    'logo-alt':'',
+    'page-title':'Aswin - AI-Driven Growth & Strategy',
+    'page-meta-description':'I turn business problems into scalable, AI-powered systems - bridging strategy and technology to drive measurable growth. Portfolio and case studies.'
+  });
+  Object.assign(STRINGS.fr, {
+    'lang-switcher-legend':'Langue',
+    'theme-switcher-legend':'Thème',
+    'topbar-status':'Ouvert aux postes en Growth Ops / GTM / RevOps',
+    'hero-eyebrow':'Stratégie de croissance · Opérations métier · IA',
+    'hero-tagline':'J\'identifie les points de blocage business et je conçois des systèmes de croissance basés sur l\'IA, afin d\'améliorer l\'efficacité opérationnelle, d\'accélérer la prise de décision et d\'aider les organisations à se développer plus rapidement.',
+    'hero-cta-work':'Voir mon travail →',
+    'resume-cv-aria':'Afficher les téléchargements de CV',
+    'resume-en-aria':'Ouvrir le CV en anglais',
+    'resume-fr-aria':'Ouvrir le CV en français',
+    'about-eyebrow':'À propos - Le stratège business',
+    'about-heading':'Je crois que la technologie prend toute sa valeur lorsqu\'elle résout de <strong>vrais problèmes business</strong>.',
+    'about-p1':'Ma carrière s\'est construite autour d\'un objectif clair : comprendre le fonctionnement des entreprises, identifier des opportunités de croissance, et concevoir des solutions technologiques qui créent un impact business mesurable.',
+    'about-p2':'De l\'optimisation des opérations à la digitalisation des processus métier, en passant par la conception de systèmes de croissance basés sur l\'IA pour des événements internationaux, chaque projet a renforcé une conviction : la technologie n\'apporte de valeur que lorsqu\'elle résout le bon problème business.',
+    'about-p3':'Aujourd\'hui, je me concentre sur la création de solutions évolutives qui améliorent les opérations métier, accélèrent la croissance et facilitent une prise de décision plus intelligente grâce à l\'IA, l\'automatisation et l\'analyse de données. Demain, mon ambition est d\'accompagner des organisations où la technologie n\'est pas seulement mise en place, mais utilisée de façon stratégique pour transformer durablement leur fonctionnement, leur croissance et leur impact.',
+    'about-p4':'Ce portfolio retrace ce parcours : non seulement ce que j\'ai construit, mais aussi ma façon de réfléchir, de résoudre des problèmes et de me préparer pour l\'avenir.',
+    'biz-transformation-projects-eyebrow':'Projets de transformation d\'entreprise',
+    'projects-h1':'Un aperçu de mes projets',
+    'projects-p':'Six problèmes business réels, regroupés par domaine - survolez un groupe pour explorer, cliquez pour voir le détail complet.',
+    'bento-hint':'+ En savoir plus',
+    'bento-link':'Voir le portfolio de projets →',
+    'case-studies-h2':'Travaux sélectionnés, résumés pour les décideurs',
+    'case-studies-p':'Six missions en croissance, automatisation et business intelligence - défi, solution et impact mesurable pour chacune.',
+    'exec-section-challenge-label':'Problématique business',
+    'exec-section-solution-label':'Ma solution',
+    'exec-section-impact-label':'Impact business',
+    'exec-section-stack-label':'Stack technique',
+    'evolution-section-label':'Évolution professionnelle',
+    'evolution-header-p':'Chaque étape de ma carrière a élargi le champ des problèmes que je résous - de l\'exécution opérationnelle à l\'optimisation des systèmes métier, jusqu\'à la conception de stratégies de croissance pilotées par la donnée et l\'IA. Ce parcours reflète non seulement les postes que j\'ai occupés, mais aussi l\'évolution constante de ma vision de la création de valeur business.',
+    'focus-label-key':'Compétences clés',
+    'focus-label-future':'Priorités futures',
+    'period-0-subtitle':'Comprendre le fonctionnement des organisations',
+    'period-0-p':'Cette étape a posé les bases de mes compétences opérationnelles. J\'ai coordonné des initiatives de grande envergure, géré les relations avec des autorités publiques et des organisations médiatiques, et contribué au bon déroulement d\'événements nationaux. Travailler avec des parties prenantes variées m\'a appris qu\'une bonne exécution repose sur une communication solide, des processus structurés et une discipline opérationnelle.',
+    'period-0-focus':'<li>Exécution opérationnelle</li><li>Gestion des parties prenantes</li><li>Gestion d\'événements</li><li>Collaboration transversale</li><li>Coordination des processus</li>',
+    'period-1-subtitle':'Transformer les processus grâce à la donnée et la technologie',
+    'period-1-p':'Une fois le fonctionnement des opérations bien compris, je me suis concentré sur leur amélioration. J\'ai analysé les processus métier, identifié les points de blocage opérationnels, repensé des processus manuels et mis en place des systèmes numériques qui ont amélioré l\'efficacité, le reporting et la prise de décision. Cette étape a renforcé ma capacité à relier les objectifs business à des solutions technologiques.',
+    'period-1-focus':'<li>Analyse métier</li><li>Transformation digitale</li><li>Optimisation des processus</li><li>Tableaux de bord exécutifs</li><li>Automatisation des processus</li><li>Conseil aux entreprises</li>',
+    'period-2-subtitle':'Faire évoluer la croissance grâce à l\'IA et aux systèmes intelligents',
+    'period-2-p':'Mon périmètre s\'est élargi au-delà des opérations internes pour englober la croissance business. J\'ai conçu des automatisations basées sur l\'IA, développé des pipelines de données décisionnelles, soutenu des initiatives Go-to-Market et optimisé les opérations marketing et revenue pour des événements technologiques internationaux. Travailler entre les équipes Growth, Marketing, Sales et Operations m\'a confirmé à quel point des fonctions business connectées favorisent une croissance durable.',
+    'period-2-focus':'<li>Growth Operations</li><li>Stratégie Go-to-Market (GTM)</li><li>Opérations marketing</li><li>Revenue Operations</li><li>Automatisation IA</li><li>Business Intelligence</li><li>Stratégie de données</li>',
+    'next-chapter-label':'Prochaine étape',
+    'next-chapter-h3':'Stratégie de croissance → Transformation d\'entreprise → Direction exécutive',
+    'next-chapter-p1':'Ma prochaine étape est de passer de la construction de systèmes métier à la définition des stratégies qui les sous-tendent. Mon objectif est d\'aider les organisations à identifier des opportunités de croissance, à résoudre des problématiques opérationnelles complexes, et à utiliser l\'IA, l\'automatisation et la donnée comme de véritables leviers stratégiques plutôt que comme de simples technologies isolées.',
+    'next-chapter-p2':'Mon ambition à long terme est de diriger des organisations où stratégie d\'entreprise, technologie et excellence opérationnelle travaillent ensemble pour créer une croissance mesurable et durable.',
+    'next-chapter-focus':'<li>Stratégie de croissance</li><li>Stratégie d\'entreprise</li><li>Transformation d\'entreprise</li><li>Stratégie IA</li><li>Stratégie produit</li><li>Stratégie de revenus</li><li>Direction exécutive</li>',
+    'skills-section-label':'Compétences &amp; outils clés',
+    'skill-group-0-h3':'Growth &amp; GTM',
+    'skill-group-1-h3':'IA &amp; Automatisation',
+    'skill-group-2-h3':'Données &amp; Analyse',
+    'skill-group-3-h3':'Stratégie &amp; Business',
+    'skill-tag-crm-ops':'Opérations CRM',
+    'skill-tag-campaign-automation':'Automatisation des campagnes',
+    'skill-tag-workflow-automation':'Automatisation des processus',
+    'skill-tag-data-enrichment':'Enrichissement des données',
+    'skill-tag-exec-dashboards-reporting':'Tableaux de bord exécutifs &amp; reporting',
+    'skill-tag-product-strategy':'Stratégie produit',
+    'skill-tag-business-consulting':'Conseil aux entreprises',
+    'skill-tag-user-journey-mapping':'Cartographie du parcours utilisateur',
+    'skill-tag-digital-transformation':'Transformation digitale',
+    'skill-tag-stakeholder-management':'Gestion des parties prenantes',
+    'card-focus':'Growth Ops · GTM · RevOps · Stratégie d\'entreprise',
+    'quote-text':'"L\'avenir n\'appartient pas à ceux qui construisent le plus de technologie.\n        Il appartient à ceux qui savent où la technologie crée le <strong>plus de valeur</strong>."',
+    'contact-eyebrow':'Contact',
+    'contact-h2':'Construisons quelque chose <em>qui vaut la peine d\'être construit</em>.',
+    'contact-tagline':'Ouvert aux postes en Growth Operations, GTM, RevOps et Stratégie d\'entreprise.\n      Si vous avez un problème de croissance ou d\'organisation à résoudre, je serais ravi d\'en discuter.',
+    'contact-cta-email':'Envoyer un e-mail →',
+    'contact-cta-call':'Appeler / WhatsApp',
+    'contact-section-label':'Canaux directs',
+    'contact-label-email':'E-mail',
+    'contact-label-phone':'Téléphone / WhatsApp',
+    'contact-label-linkedin':'LinkedIn',
+    'contact-label-github':'GitHub',
+    'contact-label-location':'Localisation',
+    'contact-value-linkedin':'Voir mon profil LinkedIn',
+    'contact-value-github':'Voir mes dépôts',
+    'contact-footer-p':'Actuellement basé à Paris - ouvert à la mobilité pour la bonne opportunité.',
+    'side-fab-open-aria':'Ouvrir la navigation',
+    'side-fab-label-home':'Accueil',
+    'side-fab-label-about':'À propos',
+    'side-fab-label-projects':'Projets',
+    'side-fab-label-portfolio':'Portfolio',
+    'side-fab-label-contact':'Contact',
+    'logo-alt':'',
+    'page-title':'Aswin - Croissance & Stratégie pilotées par l\'IA',
+    'page-meta-description':'Je transforme des problèmes business en systèmes évolutifs pilotés par l\'IA - à la croisée de la stratégie et de la technologie pour générer une croissance mesurable. Portfolio et études de cas.'
+  });
+
+  function applyLanguage(lang){
+    lang = STRINGS[lang] ? lang : 'en';
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const val = STRINGS[lang][el.getAttribute('data-i18n')];
+      if (val != null) el.innerHTML = val;
+    });
+    document.querySelectorAll('[data-i18n-attr]').forEach(el => {
+      el.getAttribute('data-i18n-attr').split(';').forEach(pair => {
+        const [attr, key] = pair.split(':');
+        const val = STRINGS[lang][key];
+        if (val != null) el.setAttribute(attr, val);
+      });
+    });
+    const title = STRINGS[lang]['page-title'];
+    const desc = STRINGS[lang]['page-meta-description'];
+    if (title) document.title = title;
+    if (desc) {
+      const metaDesc = document.querySelector('meta[name="description"]');
+      const ogDesc = document.querySelector('meta[property="og:description"]');
+      if (metaDesc) metaDesc.setAttribute('content', desc);
+      if (ogDesc) ogDesc.setAttribute('content', desc);
+    }
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle && title) ogTitle.setAttribute('content', title);
+    localStorage.setItem('site-lang', lang);
+  }
+
+  const langSwitcher = document.getElementById('langSwitcher');
+  langSwitcher.querySelectorAll('input[name="lang"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+      if (!radio.checked) return;
+      applyLanguage(radio.value);
+      // French/English copy runs different lengths - re-fit the exec-card
+      // row heights and scroll-trigger positions to the new layout.
+      if (typeof equalizeExecCardHeights === 'function') equalizeExecCardHeights();
+      if (window.ScrollTrigger) ScrollTrigger.refresh();
+    });
+  });
+
   /* ---- switcher ---- */
   const switcher = document.getElementById('switcher');
   (function trackPrevious(el){
@@ -1122,6 +1394,95 @@
     }
   ];
 
+  /* ---- French counterparts for PROJECTS, same order/index. Tool and
+     platform names (Clay, n8n, Looker Studio...) stay in English - only
+     generic capability labels translate. Titles reuse the exact wording
+     already established on the French resume where the same project
+     appears there (AI Market Intelligence Engine, AI Content Repurposing
+     Engine), for consistency between both documents. ---- */
+  const PROJECTS_FR = [
+    {
+      title:'Plateforme de transformation digitale de l\'adhésion',
+      subtitle:'Modernisation de l\'intégration des membres et des opérations de l\'association',
+      preview:'Remplacement des candidatures manuscrites et des paiements traités manuellement par un portail numérique centralisé et des tableaux de bord exécutifs, automatisant <strong>plus de 80 % des tâches administratives</strong> sur l\'ensemble du parcours membre.',
+      challenge:'L\'association reposait sur des candidatures manuscrites, des paiements traités manuellement et des dossiers membres non centralisés, ce qui créait des inefficacités opérationnelles et freinait la croissance de l\'organisation.',
+      solution:'Repensé l\'ensemble du parcours membre en mettant en place un portail de candidature numérique centralisé, un processus de paiement intégré, des tableaux de bord exécutifs et un système de gestion des membres centralisé.',
+      impact:[
+        'Amélioré l\'accessibilité des données de 60 %',
+        'Amélioré la précision des données de 40 %',
+        'Automatisé plus de 80 % des tâches administratives',
+        'Créé une expérience membre numérique évolutive'
+      ],
+      stack:'Google Apps Script • Google Workspace • Tableaux de bord • Automatisation des processus'
+    },
+    {
+      title:'Plateforme IA de qualification des prospects (recommandation stratégique)',
+      subtitle:'Enrichissement automatisé des prospects et intelligence CRM',
+      preview:'Conçu un pipeline d\'enrichissement automatisé avec Clay et Apollo, remplaçant une prospection manuelle événement par événement, avec un <strong>taux de vérification d\'e-mails de 54 %</strong> sur des données de contact froides.',
+      challenge:'Les équipes commerciales et partenariats effectuaient des recherches manuelles pour identifier les informations d\'entreprise, les profils LinkedIn et les coordonnées, principalement à partir de prospects issus d\'événements concurrents. Cela limitait le nombre de prospects, nuisait à la qualité des données et demandait un temps considérable avant même de lancer les campagnes de prospection.',
+      solution:'Conçu un pipeline d\'enrichissement automatisé avec Clay et Apollo afin de collecter, valider et enrichir les informations prospects à partir d\'un plus grand nombre de sources, faisant passer l\'équipe d\'une collecte manuelle événement par événement à un processus d\'enrichissement reproductible et évolutif pour les équipes commerciales, partenariats et marketing.',
+      impact:[
+        'Élargi l\'approche de prospection au-delà de la recherche manuelle sur les événements concurrents, vers un pipeline d\'enrichissement évolutif',
+        'Atteint un taux de vérification d\'e-mails de 54 % sur des données prospects froides, transformant des listes de contacts non structurées en leads prêts pour le CRM et la prospection',
+        'Permis la segmentation des contacts enrichis en profils clients idéaux (ICP), afin que les campagnes ciblent des audiences précises plutôt qu\'une liste unique non différenciée'
+      ],
+      stack:'Clay • Apollo • Serper API • LinkedIn • Google Sheets • n8n'
+    },
+    {
+      title:'Tableau de bord exécutif de croissance',
+      subtitle:'Business Intelligence au service de la décision stratégique',
+      preview:'Consolidé LinkedIn, WhatsApp, Meta Ads et d\'autres canaux via n8n vers Looker Studio, unifiant <strong>plus de 5 canaux dispersés</strong> au sein d\'un tableau de bord exécutif en temps réel.',
+      challenge:'La direction ne disposait d\'aucune visibilité centralisée sur la croissance des adhésions, la performance marketing, les tendances de revenus et les indicateurs opérationnels. À chaque mise à jour des KPI, il fallait solliciter individuellement chaque équipe et collecter les chiffres manuellement, ce qui rendait le reporting lent et dépendant de vérifications dispersées, canal par canal.',
+      solution:'Conçu des tableaux de bord exécutifs consolidant les données de plusieurs canaux de prospection et de communication - LinkedIn, Instantly, Telegram, WhatsApp et Meta Ads - en les acheminant via n8n vers des Google Sheets structurés, puis en visualisant l\'ensemble dans Looker Studio. Cela a remplacé le besoin de solliciter chaque équipe individuellement par une vue centralisée et en temps réel.',
+      impact:[
+        'Unifié les données de cinq canaux dispersés ou plus au sein d\'un pipeline de reporting unique et structuré',
+        'Supprimé le besoin de solliciter manuellement chaque équipe pour les mises à jour des KPI, remplacé par un tableau de bord en libre-service et en temps réel',
+        'Permis une visibilité en temps réel sur les KPI de croissance, de revenus, marketing et opérationnels, sur l\'ensemble des plateformes connectées',
+        'Amélioré la prise de décision de la direction grâce à une Business Intelligence centralisée et un reporting de performance'
+      ],
+      stack:'n8n • Google Sheets • Looker Studio • Meta Ads • LinkedIn'
+    },
+    {
+      title:'Plateforme IA de veille stratégique',
+      subtitle:'Veille des tendances et automatisation de l\'intelligence marché grâce à l\'IA',
+      preview:'Déployé un système de classification IA qui surveille en continu <strong>5 subreddits</strong> en temps réel, avec un <strong>filtre de fraîcheur de moins d\'une heure</strong>, remplaçant la veille manuelle des communautés.',
+      challenge:'Les équipes Growth et marketing consacraient beaucoup de temps à surveiller manuellement des communautés en ligne pour identifier les tendances du secteur, l\'activité des concurrents, des opportunités de partenariat et les discussions émergentes. Ce processus était répétitif, peu fiable et difficile à faire évoluer.',
+      solution:'Conçu et développé un workflow d\'automatisation basé sur l\'IA qui surveille en continu des communautés Reddit, collecte les discussions pertinentes, classe le contenu à l\'aide de grands modèles de langage (LLM), élimine les doublons et fournit des insights exploitables via un reporting automatisé.',
+      impact:[
+        'Surveillé 5 subreddits en continu avec une classification IA en temps réel',
+        'Appliqué un filtre de fraîcheur de moins d\'une heure pour ne faire remonter que les discussions pertinentes et récentes',
+        'Remplacé une veille marché entièrement manuelle par un pipeline automatisé fonctionnant en continu'
+      ],
+      stack:'n8n • Reddit API • OpenAI • Gmail • Google Sheets • Classification IA'
+    },
+    {
+      title:'Système intelligent d\'engagement des participants',
+      subtitle:'Workflow automatisé de networking et de développement de relations',
+      preview:'Connecté l\'inscription aux événements à la prospection LinkedIn, déclenchant un engagement personnalisé dès la fenêtre d\'inscription, à un rythme sécurisé de <strong>10 connexions par jour</strong>.',
+      challenge:'Les participants aux événements s\'inscrivaient souvent sans aucun processus de suivi structuré, ce qui générait des occasions manquées de networking, de développement de relations et d\'engagement futur.',
+      solution:'Développé une automatisation déclenchée par événement, connectant les inscriptions des participants à des workflows de prospection LinkedIn, permettant un engagement personnalisé dès l\'inscription tout en réduisant l\'effort manuel.',
+      impact:[
+        'Déclenché une prospection personnalisée dès la fenêtre d\'inscription à l\'événement',
+        'Fonctionné avec une limite sécurisée de 10 connexions par jour afin de préserver la santé du compte',
+        'Converti automatiquement des inscriptions passives en points de contact de networking actifs'
+      ],
+      stack:'n8n • LinkedIn • Linkup API • Swoogo • Serper API'
+    },
+    {
+      title:'Moteur IA de génération de contenu',
+      subtitle:'Transformation de contenus longs en supports marketing multicanaux',
+      preview:'Conçu un workflow IA qui transforme <strong>1 épisode de podcast</strong> en un article de blog optimisé SEO complet, ainsi qu\'en contenus adaptés à chaque réseau social, réduisant les délais de traitement manuel.',
+      challenge:'La création d\'articles de blog et de contenus sur les réseaux sociaux à partir des épisodes de podcast demandait un effort manuel important, ce qui limitait la production de contenu et nuisait à la régularité des actions marketing digital.',
+      solution:'Conçu un workflow basé sur l\'IA qui convertit automatiquement les enregistrements de podcast en articles de blog optimisés SEO et en contenus adaptés à chaque réseau social, pour un engagement digital continu.',
+      impact:[
+        'Converti chaque épisode de podcast en un article de blog optimisé SEO, accompagné de publications adaptées à chaque réseau social',
+        'Réduit les délais de traitement manuel en automatisant l\'ensemble du processus de valorisation de contenu',
+        'Maintenu un rythme de publication multicanal régulier, sans effectif supplémentaire'
+      ],
+      stack:'OpenAI • n8n • SEO • Automatisation de contenu • Workflows IA'
+    }
+  ];
+
   /* ---- projects grouped into a bento grid by focus area ---- */
   const PROJECT_CATEGORIES = [
     { name:'AI Automation & Workflows', desc:'End-to-end automations that turn raw signals - market chatter, long-form content - into structured, actionable output.', items:[3,5], c1:'#3B82F6', c2:'#8B5CF6' },
@@ -1129,12 +1490,35 @@
     { name:'Business Intelligence & Transformation', desc:'Executive dashboards and transformation programs that make performance visible and operations scalable.', items:[2,0], c1:'#D9713C', c2:'#0ea5e9' }
   ];
 
+  const PROJECT_CATEGORIES_FR = [
+    { name:'Automatisation IA & Flux de travail', desc:'Des automatisations de bout en bout qui transforment des signaux bruts - tendances du marché, contenus longs - en résultats structurés et exploitables.' },
+    { name:'Systèmes de croissance & relations', desc:'Des pipelines automatisés qui transforment des prospects froids et des participants à des événements en relations qualifiées, prêtes pour le CRM.' },
+    { name:'Business Intelligence & Transformation', desc:'Des tableaux de bord exécutifs et des programmes de transformation qui rendent la performance visible et les opérations évolutives.' }
+  ];
+
+  PROJECT_CATEGORIES.forEach((cat, i) => {
+    STRINGS.en[`category-${i}-name`] = cat.name;
+    STRINGS.en[`category-${i}-desc`] = cat.desc;
+    STRINGS.fr[`category-${i}-name`] = PROJECT_CATEGORIES_FR[i].name;
+    STRINGS.fr[`category-${i}-desc`] = PROJECT_CATEGORIES_FR[i].desc;
+  });
+  PROJECTS.forEach((p, i) => {
+    ['title','subtitle','preview','challenge','solution'].forEach(field => {
+      STRINGS.en[`project-${i}-${field}`] = p[field];
+      STRINGS.fr[`project-${i}-${field}`] = PROJECTS_FR[i][field];
+    });
+    STRINGS.en[`project-${i}-impact`] = p.impact.map(v => `<li>${v}</li>`).join('');
+    STRINGS.fr[`project-${i}-impact`] = PROJECTS_FR[i].impact.map(v => `<li>${v}</li>`).join('');
+    STRINGS.en[`project-${i}-stack`] = p.stack.split(' • ').map(t => `<li>${t}</li>`).join('');
+    STRINGS.fr[`project-${i}-stack`] = PROJECTS_FR[i].stack.split(' • ').map(t => `<li>${t}</li>`).join('');
+  });
+
   const grid = document.getElementById('grid');
   PROJECT_CATEGORIES.forEach((cat, i) => {
     const card = document.createElement('div');
     card.className = 'bento-card' + (i === 0 ? ' is-expanded' : '');
     card.dataset.idx = i;
-    const projectLinks = cat.items.map(idx => `<li><a href="#exec-project-${idx}">${PROJECTS[idx].title}</a></li>`).join('');
+    const projectLinks = cat.items.map(idx => `<li><a href="#exec-project-${idx}" data-i18n="project-${idx}-title">${PROJECTS[idx].title}</a></li>`).join('');
     card.innerHTML = `
       <div class="p-card-blob" style="background:${cat.c1}; width:70%; height:55%; top:-15%; left:-10%;"></div>
       <div class="p-card-blob" style="background:${cat.c2}; width:60%; height:50%; bottom:-15%; right:-10%;"></div>
@@ -1142,11 +1526,11 @@
         <div class="bento-plus">+</div>
         <div class="bento-num">0${i + 1}</div>
         <div class="bento-body">
-          <h3>${cat.name}</h3>
-          <div class="bento-hint">+ Know more</div>
-          <p class="bento-desc">${cat.desc}</p>
+          <h3 data-i18n="category-${i}-name">${cat.name}</h3>
+          <div class="bento-hint" data-i18n="bento-hint">+ Know more</div>
+          <p class="bento-desc" data-i18n="category-${i}-desc">${cat.desc}</p>
           <ul class="bento-projects">${projectLinks}</ul>
-          <a class="bento-link" href="#case-studies">View Project Portfolio →</a>
+          <a class="bento-link" href="#case-studies" data-i18n="bento-link">View Project Portfolio →</a>
         </div>
       </div>`;
     grid.appendChild(card);
@@ -1188,9 +1572,9 @@
         <div class="exec-card-head">
           <div class="exec-card-headline">
             <div class="exec-card-num">0${i + 1}</div>
-            <h3>${p.title}</h3>
-            <div class="exec-card-subtitle">${p.subtitle}</div>
-            <div class="exec-card-preview">${p.preview}</div>
+            <h3 data-i18n="project-${i}-title">${p.title}</h3>
+            <div class="exec-card-subtitle" data-i18n="project-${i}-subtitle">${p.subtitle}</div>
+            <div class="exec-card-preview" data-i18n="project-${i}-preview">${p.preview}</div>
           </div>
           <div class="exec-card-toggle" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
@@ -1199,20 +1583,20 @@
         <div class="exec-card-body">
           <div class="exec-card-body-inner">
             <div class="exec-card-section">
-              <h4>Business Challenge</h4>
-              <p>${p.challenge}</p>
+              <h4 data-i18n="exec-section-challenge-label">Business Challenge</h4>
+              <p data-i18n="project-${i}-challenge">${p.challenge}</p>
             </div>
             <div class="exec-card-section">
-              <h4>My Solution</h4>
-              <p>${p.solution}</p>
+              <h4 data-i18n="exec-section-solution-label">My Solution</h4>
+              <p data-i18n="project-${i}-solution">${p.solution}</p>
             </div>
             <div class="exec-card-section">
-              <h4>Business Impact</h4>
-              <ul class="exec-impact-list">${impactItems}</ul>
+              <h4 data-i18n="exec-section-impact-label">Business Impact</h4>
+              <ul class="exec-impact-list" data-i18n="project-${i}-impact">${impactItems}</ul>
             </div>
             <div class="exec-card-section exec-card-stack-section">
-              <h4>Technology Stack</h4>
-              <ul class="skill-tags">${stackTags}</ul>
+              <h4 data-i18n="exec-section-stack-label">Technology Stack</h4>
+              <ul class="skill-tags" data-i18n="project-${i}-stack">${stackTags}</ul>
             </div>
           </div>
         </div>
@@ -1266,6 +1650,20 @@
       scrollTrigger:{ trigger: el, start:'top 90%', toggleActions:'play none none reverse' }, delay:i*0.05 });
   });
   gsap.from('.contact-footer p', { opacity:0, duration:0.8, scrollTrigger:{ trigger:'.contact-footer', start:'top 95%', toggleActions:'play none none reverse' } });
+
+  /* ---- apply the saved/default language now that every static section and
+     every dynamically-built card (with its data-i18n tags) exists. Runs
+     after all GSAP/ScrollTrigger setup above, so if a returning visitor's
+     saved language reflows the layout (French copy runs a bit longer or
+     shorter than English), refresh ScrollTrigger positions and the exec-card
+     height-equalizer against the language actually being shown. ---- */
+  const savedLang = localStorage.getItem('site-lang') === 'fr' ? 'fr' : 'en';
+  langSwitcher.querySelectorAll('input[name="lang"]').forEach(radio => { radio.checked = (radio.value === savedLang); });
+  applyLanguage(savedLang);
+  if (savedLang !== 'en') {
+    equalizeExecCardHeights();
+    ScrollTrigger.refresh();
+  }
 </script>
 </body>
 </html>
